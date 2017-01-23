@@ -1,0 +1,30 @@
+<resources>
+    <string name="app_name">NetBank</string>
+    <string name="email">Email</string>
+    <string name="userid">User ID</string>
+    <string name="pass">Password</string>
+    <string name="reg">Create Account</string>
+    <string name="invalid">Wrong userid or password.</string>
+    <string name="recog">Cannot recognize the userid</string>
+    <string name="error">Something went wrong.</string>
+    <string name="matcherr">Password do not match</string>
+    <string name="mobileinv">Mobile no invalid</string>
+    <string name="next">NEXT</string>
+    <string name="skip">SKIP</string>
+    <string name="start">LOGIN</string>
+
+    <string name="slide_1_title">Welcome!</string>
+    <string name="slide_1_desc">The easiest way to operate your bank account from your smartphone!</string>
+
+    <string name="slide_2_title">Statements</string>
+    <string name="slide_2_desc">Request your account statement and check balance on the go!</string>
+
+    <string name="slide_3_title">Fund Transfer</string>
+    <string name="slide_3_desc">Transfer funds quick and easy way!</string>
+
+    <string name="slide_4_title">FDR</string>
+    <string name="slide_4_desc">Also create FDR easily in just a few taps!</string>
+
+    <string name="play_again_desc">To see the welcome slider again, goto Settings -> apps -> welcome slider -> clear data</string>
+    <string name="play_again">Play Again</string>
+</resources>
