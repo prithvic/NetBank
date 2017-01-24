@@ -109,7 +109,7 @@ public class LoginActivity extends AppCompatActivity {
 
             try
             {
-                login = "http://aa12112.freevar.com/login.php";
+                login = "http://aa12112.16mb.com/login.php";
                 data = URLEncoder.encode("uid","UTF-8") + "=" + URLEncoder.encode(mUID,"UTF-8") + "&" + URLEncoder.encode("pass","UTF-8") + "=" + URLEncoder.encode(mPassword,"UTF-8");
                 URL url = new URL(login);
                 URLConnection conn = url.openConnection();
