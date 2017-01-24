@@ -7,7 +7,7 @@
     <string name="invalid">Wrong userid or password.</string>
     <string name="recog">Cannot recognize the userid</string>
     <string name="invinp">Invalid Input</string>
-    <string name="emlerr">Email doesn't seem right</string>
+    <string name="emlerr">Email doesnt seem right</string>
     <string name="error">Something went wrong.</string>
     <string name="matcherr">Password do not match</string>
     <string name="accerr">Account number invalid</string>
