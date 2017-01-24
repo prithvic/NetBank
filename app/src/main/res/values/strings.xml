@@ -6,12 +6,16 @@
     <string name="reg">Create Account</string>
     <string name="invalid">Wrong userid or password.</string>
     <string name="recog">Cannot recognize the userid</string>
+    <string name="invinp">Invalid Input</string>
+    <string name="emlerr">Email doesn't seem right</string>
     <string name="error">Something went wrong.</string>
     <string name="matcherr">Password do not match</string>
+    <string name="accerr">Account number invalid</string>
     <string name="mobileinv">Mobile no invalid</string>
     <string name="next">NEXT</string>
     <string name="skip">SKIP</string>
     <string name="start">LOGIN</string>
+    <string name="adderr">Address is invalid</string>
 
     <string name="slide_1_title">Welcome!</string>
     <string name="slide_1_desc">The easiest way to operate your bank account from your smartphone!</string>
