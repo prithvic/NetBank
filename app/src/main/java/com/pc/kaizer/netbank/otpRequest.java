@@ -26,7 +26,7 @@ class otpRequest extends AsyncTask<Void, Void, String>{
 
     @Override
     protected String doInBackground(Void... params) {
-        String sendsms = "http://aa12112.freevar.com/SMS/sendsms.php";
+        String sendsms = "http://aa12112.16mb.com/sendsms.php";
         try {
             String response;
             String data = URLEncoder.encode("to", "UTF-8") + "=" + URLEncoder.encode(mobile, "UTF-8") + "&" + URLEncoder.encode("msg", "UTF-8") + "=" + URLEncoder.encode(otp, "UTF-8");
@@ -53,9 +53,9 @@ class otpRequest extends AsyncTask<Void, Void, String>{
     {
         if(success.equals("SENT OTP."))
         {
-            Toast.makeText(Ctx, "sending OTP", Toast.LENGTH_LONG).show();
+            Toast.makeText(Ctx,"SUCESS in sending OTP", Toast.LENGTH_LONG).show();
         }
         else
-        Toast.makeText(Ctx, "OTP sending failed", Toast.LENGTH_LONG).show();
+        Toast.makeText(Ctx,success, Toast.LENGTH_LONG).show();
     }
 }
