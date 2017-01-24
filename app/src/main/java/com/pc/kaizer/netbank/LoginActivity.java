@@ -3,12 +3,8 @@ created by admin-786
  */
 
 package com.pc.kaizer.netbank;
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
-import android.annotation.TargetApi;
 import android.content.Intent;
 import android.os.AsyncTask;
-import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -29,8 +25,6 @@ import static com.pc.kaizer.netbank.getSecurePassword.getPassword;
 public class LoginActivity extends AppCompatActivity {
     private EditText mUseridView;
     private EditText mPassView;
-    private View mProgressView;
-    private View mLoginFormView;
     private UserLoginTask auth;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,8 +49,6 @@ public class LoginActivity extends AppCompatActivity {
                         startActivity(goToNextActivity);
                     }
                 });
-        mLoginFormView = findViewById(R.id.loginform);
-        mProgressView = findViewById(R.id.login_progress);
     }
     public void Login() {
         if(auth!= null)
@@ -89,7 +81,6 @@ public class LoginActivity extends AppCompatActivity {
         }
         else
         {
-            showProgress(true);
             auth = new UserLoginTask(userid, password);
             auth.execute((Void) null);
         }
@@ -99,38 +90,6 @@ public class LoginActivity extends AppCompatActivity {
         return TextUtils.isEmpty(pass);
     }
 
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
-    public void showProgress(final boolean show) {
-        // On Honeycomb MR2 we have the ViewPropertyAnimator APIs, which allow
-        // for very easy animations. If available, use these APIs to fade-in
-        // the progress spinner.
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
-            int shortAnimTime = getResources().getInteger(android.R.integer.config_shortAnimTime);
-
-            mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
-            mLoginFormView.animate().setDuration(shortAnimTime).alpha(
-                    show ? 0 : 1).setListener(new AnimatorListenerAdapter() {
-                @Override
-                public void onAnimationEnd(Animator animation) {
-                    mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
-                }
-            });
-
-            mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
-            mProgressView.animate().setDuration(shortAnimTime).alpha(
-                    show ? 1 : 0).setListener(new AnimatorListenerAdapter() {
-                @Override
-                public void onAnimationEnd(Animator animation) {
-                    mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
-                }
-            });
-        } else {
-            // The ViewPropertyAnimator APIs are not available, so simply show
-            // and hide the relevant UI components.
-            mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
-            mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
-        }
-    }
 
     public class UserLoginTask extends AsyncTask<Void, Void, String> {
 
@@ -175,7 +134,6 @@ public class LoginActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(final String success) {
             auth=null;
-            showProgress(false);
             if (success.equals("Login Success.")) {
                 finish();
                 Intent goToNextActivity = new Intent(getApplicationContext(), MainActivity.class);
@@ -192,7 +150,6 @@ public class LoginActivity extends AppCompatActivity {
         protected void onCancelled() {
 
             auth=null;
-            showProgress(false);
         }
     }
 
