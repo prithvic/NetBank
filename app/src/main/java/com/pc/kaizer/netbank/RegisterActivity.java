@@ -1,24 +1,27 @@
 package com.pc.kaizer.netbank;
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
-import android.annotation.TargetApi;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
-import android.os.Build;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Patterns;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
+
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLEncoder;
+import java.util.Random;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -29,8 +32,9 @@ public class RegisterActivity extends AppCompatActivity {
     private EditText mLnameView;
     private EditText mEmailView;
     private EditText mMobileView;
-    private View mProgressView;
-    private View mRegFormView;
+    private EditText mAddrView;
+    private EditText mAccnoView;
+    private CheckBox mCheckbox;
     private RegLoginTask reg;
 
     @Override
@@ -42,6 +46,9 @@ public class RegisterActivity extends AppCompatActivity {
         mLnameView = (EditText) findViewById(R.id.lname);
         mEmailView = (EditText) findViewById(R.id.newemail);
         mMobileView = (EditText) findViewById(R.id.mobile);
+        mAddrView = (EditText) findViewById(R.id.Address);
+        mAccnoView = (EditText) findViewById(R.id.Account);
+        mCheckbox = (CheckBox) findViewById(R.id.checkBox);
 
         Button LoginButton = (Button) findViewById(R.id.login);
         LoginButton.setOnClickListener(new View.OnClickListener() {
@@ -63,41 +70,43 @@ public class RegisterActivity extends AppCompatActivity {
                 }
             }
         });
-
-        mProgressView = findViewById(R.id.reg_progress);
-        mRegFormView = findViewById(R.id.reg_form);
-
     }
     public void Register() throws Exception {
         if(reg != null) {
             return;
         }
-        String Fname = mFnameView.getText().toString();
-        String Lname = mLnameView.getText().toString();
-        String Email = mEmailView.getText().toString();
-        String Mobile = mMobileView.getText().toString();
+        Random r = new Random(System.currentTimeMillis());
+        final String otp =String.valueOf((1 + r.nextInt(2)) * 10000 + r.nextInt(10000));
+        final String Fname = mFnameView.getText().toString();
+        final String Lname = mLnameView.getText().toString();
+        final String Email = mEmailView.getText().toString();
+        final String Mobile = mMobileView.getText().toString();
+        final String Address = mAddrView.getText().toString();
+        final String Accno = mAccnoView.getText().toString();
+
         boolean cancel = false;
         View focusView = null;
         mFnameView.setError(null);
         mLnameView.setError(null);
         mEmailView.setError(null);
         mMobileView.setError(null);
+        mAddrView.setError(null);
         if(!name_chk(Fname))
         {
             cancel=true;
-            mFnameView.setError(getString(R.string.invalid));
+            mFnameView.setError(getString(R.string.invinp));
             focusView = mFnameView;
         }
         if(!name_chk(Lname))
         {
             cancel=true;
-            mLnameView.setError(getString(R.string.invalid));
+            mLnameView.setError(getString(R.string.invinp));
             focusView = mLnameView;
         }
 
         if (!email_chk(Email)) {
             cancel = true;
-            mEmailView.setError(getString(R.string.recog));
+            mEmailView.setError(getString(R.string.emlerr));
             focusView = mEmailView;
         }
 
@@ -107,12 +116,54 @@ public class RegisterActivity extends AppCompatActivity {
             mMobileView.setError(getString(R.string.mobileinv));
             focusView = mMobileView;
         }
+        if(!acchk(Accno))
+        {
+            cancel = true;
+            mAccnoView.setError(getString(R.string.accerr));
+            focusView = mAccnoView;
+        }
+
+        if(!addchk(Address))
+        {
+            cancel = true;
+            mAddrView.setError(getString(R.string.adderr));
+            focusView=mAddrView;
+        }
+        if(!mCheckbox.isChecked())
+        {
+            cancel = true;
+            mCheckbox.setError("check");
+        }
         if (cancel) {
-            focusView.requestFocus();
+            if (focusView != null) {
+                focusView.requestFocus();
+            }
         } else {
-            showProgress(true);
-            reg = new RegLoginTask(Fname,Lname,Email,Mobile);
-            reg.execute((Void) null);
+            otpRequest req;
+            req = new otpRequest(Mobile,otp,getApplicationContext());
+            req.execute((Void) null);
+            AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
+            alertDialog.setTitle("OTP");
+            View viewInflated = LayoutInflater.from(this).inflate(R.layout.dialoglayout,(ViewGroup) findViewById(android.R.id.content), false);
+            final EditText input = (EditText) viewInflated.findViewById(R.id.input);
+            alertDialog.setView(viewInflated);
+            alertDialog.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    String OTP = input.getText().toString();
+                    if (OTP.equals(otp)) {
+                        reg = new RegLoginTask(Fname, Lname, Email, Mobile, Address, Accno);
+                        reg.execute((Void) null);
+                    }
+                }
+            });
+            alertDialog.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    Toast.makeText(getApplicationContext(), "OTP verification failed", Toast.LENGTH_LONG).show();
+                }
+            });
+            alertDialog.show();
         }
 
     }
@@ -126,44 +177,18 @@ public class RegisterActivity extends AppCompatActivity {
     {
         return Patterns.EMAIL_ADDRESS.matcher(email).matches();
     }
-    private boolean mob_chk(String mob)
+    private boolean mob_chk(String mob) {
+
+        return !Pattern.matches("[a-zA-Z]+", mob) && (mob.length() > 0 || mob.length() < 11) && mob.length() == 10;
+    }
+    private boolean addchk(String add) {
+        return !TextUtils.isEmpty(add) && add.length() > 15;
+    }
+    private boolean acchk(String accno)
     {
-        return TextUtils.isDigitsOnly(mob);
+        return !Pattern.matches("[a-zA-Z]+", accno) && (accno.length() > 0 || accno.length() < 12) && accno.length() == 11;
     }
 
-
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
-    public void showProgress(final boolean show) {
-        // On Honeycomb MR2 we have the ViewPropertyAnimator APIs, which allow
-        // for very easy animations. If available, use these APIs to fade-in
-        // the progress spinner.
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
-            int shortAnimTime = getResources().getInteger(android.R.integer.config_shortAnimTime);
-
-            mRegFormView.setVisibility(show ? View.GONE : View.VISIBLE);
-            mRegFormView.animate().setDuration(shortAnimTime).alpha(
-                    show ? 0 : 1).setListener(new AnimatorListenerAdapter() {
-                @Override
-                public void onAnimationEnd(Animator animation) {
-                    mRegFormView.setVisibility(show ? View.GONE : View.VISIBLE);
-                }
-            });
-
-            mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
-            mProgressView.animate().setDuration(shortAnimTime).alpha(
-                    show ? 1 : 0).setListener(new AnimatorListenerAdapter() {
-                @Override
-                public void onAnimationEnd(Animator animation) {
-                    mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
-                }
-            });
-        } else {
-            // The ViewPropertyAnimator APIs are not available, so simply show
-            // and hide the relevant UI components.
-            mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
-            mRegFormView.setVisibility(show ? View.GONE : View.VISIBLE);
-        }
-    }
 
     public class RegLoginTask extends AsyncTask<Void, Void, String>
     {
@@ -171,21 +196,30 @@ public class RegisterActivity extends AppCompatActivity {
         private final String lname;
         private final String email;
         private final String mobile;
-        private String response = null;
+        private final String address;
+        private final String accno;
 
-        RegLoginTask(String Fname,String Lname,String Email,String Mobile)
+        RegLoginTask(String Fname,String Lname,String Email,String Mobile,String Address,String Accno)
         {
             fname=Fname;
             lname=Lname;
             email=Email;
             mobile=Mobile;
+            address=Address;
+            accno = Accno;
         }
         @Override
         protected String doInBackground(Void... params) {
             try {
-                String otp = "http://aa12112.freevar.com/SMS/sendsms.php";
-                String data = URLEncoder.encode("to", "UTF-8") + "=" + URLEncoder.encode(mobile, "UTF-8") + "&" + URLEncoder.encode("msg", "UTF-8") + "=" + URLEncoder.encode("OTP here", "UTF-8");
-                URL url = new URL(otp);
+                String register = "http://aa12112.16mb.com/register.php";
+                String response;
+                String data = URLEncoder.encode("fname", "UTF-8") + "=" + URLEncoder.encode(fname, "UTF-8")
+                        + "&" + URLEncoder.encode("lname", "UTF-8") + "=" + URLEncoder.encode(lname, "UTF-8")
+                        + "&" + URLEncoder.encode("email", "UTF-8") + "=" + URLEncoder.encode(email, "UTF-8")
+                        + "&" + URLEncoder.encode("mobile", "UTF-8") + "=" + URLEncoder.encode(mobile, "UTF-8")
+                        + "&" + URLEncoder.encode("address", "UTF-8") + "=" + URLEncoder.encode(address, "UTF-8")
+                        + "&" + URLEncoder.encode("accno", "UTF-8") + "=" + URLEncoder.encode(accno, "UTF-8");
+                URL url = new URL(register);
                 URLConnection conn = url.openConnection();
                 conn.setDoOutput(true);
                 OutputStreamWriter wr = new OutputStreamWriter(conn.getOutputStream());
@@ -196,7 +230,6 @@ public class RegisterActivity extends AppCompatActivity {
                 while ((response = reader.readLine()) != null) {
                     sb.append(response);
                 }
-                wr.close();
                 return sb.toString();
 
             } catch (Exception e) {
@@ -209,18 +242,16 @@ public class RegisterActivity extends AppCompatActivity {
         protected void onPostExecute(final String success)
         {
             reg=null;
-            showProgress(false);
-            if(success.equals("SENT OTP."))
-            {
-                finish();
-                Intent goToNextActivity = new Intent(getApplicationContext(),RegSuc.class);
-                startActivity(goToNextActivity);
-                Toast.makeText(getApplicationContext(),success,Toast.LENGTH_LONG).show();
-            }
-            else
-            {
-                Toast.makeText(getApplicationContext(),success,Toast.LENGTH_LONG).show();
-            }
+                if(success.equals("Register Success")) {
+                    finish();
+                    Intent goToNextActivity = new Intent(getApplicationContext(), MainActivity.class);
+                    startActivity(goToNextActivity);
+                    Toast.makeText(getApplicationContext(), success, Toast.LENGTH_LONG).show();
+                }
+                else
+                {
+                    Toast.makeText(getApplicationContext(), success, Toast.LENGTH_LONG).show();
+                }
 
         }
 
@@ -228,7 +259,6 @@ public class RegisterActivity extends AppCompatActivity {
         protected void onCancelled()
         {
             reg=null;
-            showProgress(false);
         }
     }
 }
