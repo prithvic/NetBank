@@ -1,4 +1,5 @@
 package com.pc.kaizer.netbank;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -49,7 +50,6 @@ public class RegisterActivity extends AppCompatActivity {
         mAddrView = (EditText) findViewById(R.id.Address);
         mAccnoView = (EditText) findViewById(R.id.Account);
         mCheckbox = (CheckBox) findViewById(R.id.checkBox);
-
         Button LoginButton = (Button) findViewById(R.id.login);
         LoginButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -83,7 +83,7 @@ public class RegisterActivity extends AppCompatActivity {
         final String Mobile = mMobileView.getText().toString();
         final String Address = mAddrView.getText().toString();
         final String Accno = mAccnoView.getText().toString();
-
+        final Context mContext = this;
         boolean cancel = false;
         View focusView = null;
         mFnameView.setError(null);
@@ -142,8 +142,7 @@ public class RegisterActivity extends AppCompatActivity {
             otpRequest req;
             req = new otpRequest(Mobile,otp,getApplicationContext());
             req.execute((Void) null);
-            AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
-            alertDialog.setTitle("OTP");
+            AlertDialog.Builder alertDialog = new AlertDialog.Builder(mContext);
             View viewInflated = LayoutInflater.from(this).inflate(R.layout.dialoglayout,(ViewGroup) findViewById(android.R.id.content), false);
             final EditText input = (EditText) viewInflated.findViewById(R.id.input);
             alertDialog.setView(viewInflated);
@@ -151,10 +150,10 @@ public class RegisterActivity extends AppCompatActivity {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     String OTP = input.getText().toString();
-                    if (OTP.equals(otp)) {
-                        reg = new RegLoginTask(Fname, Lname, Email, Mobile, Address, Accno);
+                    if (OTP.equals(otp))
+                        reg = new RegLoginTask(Fname, Lname, Email, Mobile, Address, Accno,mContext);
                         reg.execute((Void) null);
-                    }
+
                 }
             });
             alertDialog.setNegativeButton("NO", new DialogInterface.OnClickListener() {
@@ -198,8 +197,8 @@ public class RegisterActivity extends AppCompatActivity {
         private final String mobile;
         private final String address;
         private final String accno;
-
-        RegLoginTask(String Fname,String Lname,String Email,String Mobile,String Address,String Accno)
+        private final Context cotx;
+        RegLoginTask(String Fname,String Lname,String Email,String Mobile,String Address,String Accno,Context ctx)
         {
             fname=Fname;
             lname=Lname;
@@ -207,6 +206,7 @@ public class RegisterActivity extends AppCompatActivity {
             mobile=Mobile;
             address=Address;
             accno = Accno;
+            this.cotx =ctx;
         }
         @Override
         protected String doInBackground(Void... params) {
@@ -243,10 +243,17 @@ public class RegisterActivity extends AppCompatActivity {
         {
             reg=null;
                 if(success.equals("Register Success")) {
-                    finish();
-                    Intent goToNextActivity = new Intent(getApplicationContext(), MainActivity.class);
-                    startActivity(goToNextActivity);
-                    Toast.makeText(getApplicationContext(), success, Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(),success, Toast.LENGTH_LONG).show();
+                    AlertDialog.Builder builder = new AlertDialog.Builder(cotx);
+                    builder.setMessage("Login details have been sent to you email.Redirecting you to login page")
+                            .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    Intent goToNextActivity = new Intent(getApplicationContext(),LoginActivity.class);
+                                    startActivity(goToNextActivity);
+                                }
+                            });
+                    builder.show();
                 }
                 else
                 {
