@@ -148,7 +148,7 @@ public class LoginActivity extends AppCompatActivity {
             auth=null;
             if (success.equals("Login Success.")) {
                 finish();
-                Intent goToNextActivity = new Intent(getApplicationContext(), MainActivity.class);
+                Intent goToNextActivity = new Intent(getApplicationContext(), Home.class);
                 startActivity(goToNextActivity);
                 Toast.makeText(getApplicationContext(),success,Toast.LENGTH_LONG).show();
             }

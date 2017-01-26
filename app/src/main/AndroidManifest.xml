@@ -11,7 +11,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name="com.pc.kaizer.netbank.WelcomeActivity"
+            android:name=".WelcomeActivity"
             android:theme="@style/Theme.AppCompat.NoActionBar"
             android:windowSoftInputMode="adjustPan">
             <intent-filter>
@@ -20,10 +20,16 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.pc.kaizer.netbank.LoginActivity" android:label="NetBank Login"/>
-        <activity android:name="com.pc.kaizer.netbank.RegisterActivity" android:label="NetBank Register"/>
-        <activity android:name="com.pc.kaizer.netbank.MainActivity" android:label="Welcome to NetBank"/>
-                <activity android:name="com.pc.kaizer.netbank.RegSuc" />
+        <activity
+            android:name=".LoginActivity"
+            android:label="NetBank Login" />
+        <activity
+            android:name=".RegisterActivity"
+            android:label="NetBank Register" />
+        <activity
+            android:name=".Home"
+            android:label="@string/title_activity_home"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_accinfo"
+            android:icon="@drawable/ic_menu_accinfo"
+            android:title="Account Info" />
+        <item
+            android:id="@+id/nav_bill"
+            android:title="Bill Payment" />
+        <item
+            android:id="@+id/nav_fund"
+            android:title="Fund Transfer" />
+        <item
+            android:id="@+id/nav_stmt"
+            android:title="Statement" />
+    </group>
+
+    <item android:title="More Facilities">
+        <menu>
+            <item
+                android:id="@+id/nav_dd"
+                android:title="Issue DD" />
+            <item
+                android:id="@+id/nav_cb"
+                android:title="Issue ChequeBook" />
+            <item
+                android:title="FDR"
+                android:id="@+id/nav_fdr" />
+        </menu>
+    </item>
+
+    <item android:title="Misc">
+        <menu>
+
+            <item
+                android:title="Set Limits"
+                android:id="@+id/nav_limit" />
+            <item
+                android:title="Change Pin"
+                android:id="@+id/nav_pin" />
+        </menu>
+    </item>
+
+</menu>

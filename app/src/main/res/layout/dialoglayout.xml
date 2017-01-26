@@ -2,21 +2,35 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:padding="20dp">
 
         <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:id="@+id/textInputLayout2">
 
-            <AutoCompleteTextView
-                android:id="@+id/input"
+            <TextView
+                android:text="OTP Sent via SMS"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/otp"
-                android:imeOptions="actionDone"
-                android:inputType="textPassword" />
+                android:id="@+id/OTPLabel"
+                android:layout_weight="1"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                android:textSize="18sp"
+                android:textAlignment="center"
+                android:paddingBottom="20dp"/>
 
         </android.support.design.widget.TextInputLayout>
+
+    <AutoCompleteTextView
+        android:id="@+id/input"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/otp"
+        android:imeOptions="actionDone"
+        android:layout_below="@+id/textInputLayout2"
+        android:layout_alignParentStart="true" />
 
 
 </RelativeLayout>
