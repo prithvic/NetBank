@@ -19,6 +19,8 @@ import java.io.OutputStreamWriter;
 import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLEncoder;
+import java.util.regex.Pattern;
+
 import static com.pc.kaizer.netbank.getSecurePassword.getPassword;
 
 
@@ -64,6 +66,12 @@ public class LoginActivity extends AppCompatActivity {
             mUseridView.setError(getString(R.string.recog));
             focusView = mUseridView;
         }
+        if(!idchk(userid))
+        {
+            cancel = true;
+            mUseridView.setError(getString(R.string.recog));
+            focusView = mUseridView;
+        }
         if(!TextUtils.isDigitsOnly(userid))
         {
             cancel = true;
@@ -88,6 +96,10 @@ public class LoginActivity extends AppCompatActivity {
     private boolean pass_chk(String pass)
     {
         return TextUtils.isEmpty(pass);
+    }
+    private boolean idchk(String id)
+    {
+        return !Pattern.matches("[a-zA-Z]+", id) && (id.length() > 0 || id.length() < 7) && id.length() == 6;
     }
 
 
