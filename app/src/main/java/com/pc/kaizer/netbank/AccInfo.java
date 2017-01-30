@@ -1,63 +1,37 @@
 package com.pc.kaizer.netbank;
 
 import android.content.Context;
-import android.net.Uri;
+import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
+import org.json.JSONException;
+import org.json.JSONObject;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.net.URL;
+import java.net.URLConnection;
+import java.net.URLEncoder;
+import static com.pc.kaizer.netbank.LoginActivity.CRED;
 
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link AccInfo.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link AccInfo#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class AccInfo extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
-    private OnFragmentInteractionListener mListener;
 
     public AccInfo() {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment AccInfo.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static AccInfo newInstance(String param1, String param2) {
-        AccInfo fragment = new AccInfo();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
+        new Details().execute();
     }
 
     @Override
@@ -67,11 +41,63 @@ public class AccInfo extends Fragment {
         return inflater.inflate(R.layout.fragment_acc_info, container, false);
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
+    public void onActivityCreated(Bundle savedInstanceState)
+    {
+        super.onActivityCreated(savedInstanceState);
+    }
+
+    class Details extends AsyncTask<Void, Void, Boolean> {
+
+        private String fname;
+        private String lname;
+        private String bal;
+        private String userid;
+        private String accno;
+        @Override
+        protected Boolean doInBackground(Void... params) {
+            try {
+                String response;
+                SharedPreferences settings = getActivity().getSharedPreferences(CRED, 0);
+                userid = settings.getString("uid", null);
+                URL url = new URL("http://aa12112.16mb.com/Welcome/details.php");
+                String data = URLEncoder.encode("userid", "UTF-8") + "=" + URLEncoder.encode(userid, "UTF-8");
+                URLConnection conn = url.openConnection();
+                conn.setDoOutput(true);
+                OutputStreamWriter wr = new OutputStreamWriter(conn.getOutputStream());
+                wr.write(data);
+                wr.flush();
+                BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+                StringBuilder sb = new StringBuilder();
+                while ((response = reader.readLine()) != null) {
+                    sb.append(response);
+                }
+                JSONObject jObject = new JSONObject(sb.toString());
+                JSONObject jArray = jObject.getJSONObject("res");
+                    fname = jArray.getString("fname");
+                    lname = jArray.getString("lname");
+                    bal = jArray.getString("bal");
+                    accno = jArray.getString("accno");
+                return true;
+            } catch (IOException | JSONException e) {
+                e.printStackTrace();
+            }
+            return false;
         }
+
+        protected void onPostExecute(final Boolean success) {
+            if(success) {
+                TextView mName;
+                TextView mAccno;
+                TextView mBal;
+                mName= (TextView) getActivity().findViewById(R.id.accinfo_name);
+                mAccno= (TextView) getActivity().findViewById(R.id.accinfo_accno);
+                mBal= (TextView) getActivity().findViewById(R.id.accinfo_Balance);
+                mBal.setText("Bal.:"+bal);
+                mAccno.setText("A/C No.:"+accno);
+                mName.setText(fname + " " + lname);
+            }
+        }
+
     }
 
     @Override
@@ -82,21 +108,6 @@ public class AccInfo extends Fragment {
     @Override
     public void onDetach() {
         super.onDetach();
-        mListener = null;
     }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
-    public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        void onFragmentInteraction(Uri uri);
-    }
 }

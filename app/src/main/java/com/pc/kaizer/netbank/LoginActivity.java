@@ -4,6 +4,7 @@ created by admin-786
 
 package com.pc.kaizer.netbank;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -20,11 +21,11 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLEncoder;
 import java.util.regex.Pattern;
-
 import static com.pc.kaizer.netbank.getSecurePassword.getPassword;
 
 
 public class LoginActivity extends AppCompatActivity {
+    public static final String CRED = "ACCDETAILS";
     private EditText mUseridView;
     private EditText mPassView;
     private UserLoginTask auth;
@@ -121,7 +122,7 @@ public class LoginActivity extends AppCompatActivity {
 
             try
             {
-                login = "http://aa12112.16mb.com/login.php";
+                login = "http://aa12112.16mb.com/init/login.php";
                 data = URLEncoder.encode("uid","UTF-8") + "=" + URLEncoder.encode(mUID,"UTF-8") + "&" + URLEncoder.encode("pass","UTF-8") + "=" + URLEncoder.encode(mPassword,"UTF-8");
                 URL url = new URL(login);
                 URLConnection conn = url.openConnection();
@@ -150,6 +151,10 @@ public class LoginActivity extends AppCompatActivity {
                 finish();
                 Intent goToNextActivity = new Intent(getApplicationContext(), Home.class);
                 startActivity(goToNextActivity);
+                SharedPreferences settings = getSharedPreferences(CRED, 0);
+                SharedPreferences.Editor editor = settings.edit();
+                editor.putString("uid",mUID);
+                editor.apply();
                 Toast.makeText(getApplicationContext(),success,Toast.LENGTH_LONG).show();
             }
             else

@@ -26,7 +26,7 @@ class otpRequest extends AsyncTask<Void, Void, String>{
 
     @Override
     protected String doInBackground(Void... params) {
-        String sendsms = "http://aa12112.16mb.com/sendsms.php";
+        String sendsms = "http://aa12112.16mb.com/SMS/sendsms.php";
         try {
             String response;
             String data = URLEncoder.encode("to", "UTF-8") + "=" + URLEncoder.encode(mobile, "UTF-8") + "&" + URLEncoder.encode("msg", "UTF-8") + "=" + URLEncoder.encode(otp, "UTF-8");

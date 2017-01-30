@@ -211,7 +211,7 @@ public class RegisterActivity extends AppCompatActivity {
         @Override
         protected String doInBackground(Void... params) {
             try {
-                String register = "http://aa12112.16mb.com/register.php";
+                String register = "http://aa12112.16mb.com/init/register.php";
                 String response;
                 String data = URLEncoder.encode("fname", "UTF-8") + "=" + URLEncoder.encode(fname, "UTF-8")
                         + "&" + URLEncoder.encode("lname", "UTF-8") + "=" + URLEncoder.encode(lname, "UTF-8")
