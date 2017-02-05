@@ -3,9 +3,14 @@ created by admin-786
  */
 
 package com.pc.kaizer.netbank;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.Context;
 import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -29,8 +34,11 @@ public class LoginActivity extends AppCompatActivity {
     private EditText mUseridView;
     private EditText mPassView;
     private UserLoginTask auth;
+    boolean connect;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
@@ -53,45 +61,77 @@ public class LoginActivity extends AppCompatActivity {
                     }
                 });
     }
+
+    public boolean isConnectedToInternet(){
+        ConnectivityManager connectivity = (ConnectivityManager)getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+        if (connectivity != null)
+        {
+            NetworkInfo[] info = connectivity.getAllNetworkInfo();
+            if (info != null)
+                for (int i = 0; i < info.length; i++)
+                    if (info[i].getState() == NetworkInfo.State.CONNECTED)
+                    {
+                        return true;
+                    }
+
+        }
+        return false;
+    }
+
+
+
     public void Login() {
-        if(auth!= null)
-            return;
-        boolean cancel = false;
-        View focusView = null;
-        String userid = mUseridView.getText().toString();
-        String password = mPassView.getText().toString();
-        mUseridView.setError(null);
-        mPassView.setError(null);
-        if (TextUtils.isEmpty(userid)) {
-            cancel = true;
-            mUseridView.setError(getString(R.string.recog));
-            focusView = mUseridView;
-        }
-        if(!idchk(userid))
-        {
-            cancel = true;
-            mUseridView.setError(getString(R.string.recog));
-            focusView = mUseridView;
-        }
-        if(!TextUtils.isDigitsOnly(userid))
-        {
-            cancel = true;
-            mUseridView.setError(getString(R.string.invalid));
-            focusView = mUseridView;
-        }
-        if (pass_chk(password)) {
-            cancel = true;
-            mPassView.setError(getString(R.string.invalid));
-            focusView = mPassView;
-        }
-        if (cancel)
-        {
-            focusView.requestFocus();
+
+        isConnectedToInternet();
+        if (isConnectedToInternet() == true) {
+            if (auth != null)
+                return;
+            boolean cancel = false;
+            View focusView = null;
+            String userid = mUseridView.getText().toString();
+            String password = mPassView.getText().toString();
+            mUseridView.setError(null);
+            mPassView.setError(null);
+            if (TextUtils.isEmpty(userid)) {
+                cancel = true;
+                mUseridView.setError(getString(R.string.recog));
+                focusView = mUseridView;
+            }
+            if (!idchk(userid)) {
+                cancel = true;
+                mUseridView.setError(getString(R.string.recog));
+                focusView = mUseridView;
+            }
+            if (!TextUtils.isDigitsOnly(userid)) {
+                cancel = true;
+                mUseridView.setError(getString(R.string.invalid));
+                focusView = mUseridView;
+            }
+            if (pass_chk(password)) {
+                cancel = true;
+                mPassView.setError(getString(R.string.invalid));
+                focusView = mPassView;
+            }
+            if (cancel) {
+                focusView.requestFocus();
+            } else {
+                auth = new UserLoginTask(userid, password);
+                auth.execute((Void) null);
+            }
         }
         else
         {
-            auth = new UserLoginTask(userid, password);
-            auth.execute((Void) null);
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setTitle("No Internet Connection!");
+            builder.setMessage("We have detected that you are not connected to Internet.\n\nPlease connect to internet and try logging in.")
+                    .setCancelable(false)
+                    .setPositiveButton("Exit", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            finish();
+                        }
+                    });
+            AlertDialog alert = builder.create();
+            alert.show();
         }
     }
     private boolean pass_chk(String pass)
@@ -120,10 +160,9 @@ public class LoginActivity extends AppCompatActivity {
         @Override
         protected String doInBackground(Void... params) {
 
-            try
-            {
+            try {
                 login = "http://aa12112.16mb.com/init/login.php";
-                data = URLEncoder.encode("uid","UTF-8") + "=" + URLEncoder.encode(mUID,"UTF-8") + "&" + URLEncoder.encode("pass","UTF-8") + "=" + URLEncoder.encode(mPassword,"UTF-8");
+                data = URLEncoder.encode("uid", "UTF-8") + "=" + URLEncoder.encode(mUID, "UTF-8") + "&" + URLEncoder.encode("pass", "UTF-8") + "=" + URLEncoder.encode(mPassword, "UTF-8");
                 URL url = new URL(login);
                 URLConnection conn = url.openConnection();
                 conn.setDoOutput(true);
@@ -132,16 +171,14 @@ public class LoginActivity extends AppCompatActivity {
                 wr.flush();
                 BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
                 StringBuilder sb = new StringBuilder();
-                while((response  = reader.readLine())!= null)
-                {
+                while ((response = reader.readLine()) != null) {
                     sb.append(response);
                 }
                 return sb.toString();
-
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            return null;
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                return null;
         }
 
         @Override

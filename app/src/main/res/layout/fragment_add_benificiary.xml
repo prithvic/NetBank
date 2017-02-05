@@ -1,0 +1,158 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="com.pc.kaizer.netbank.AddBenificiary">
+
+    <!-- TODO: Update blank fragment layout -->
+
+    <ScrollView
+        android:paddingTop="?android:attr/actionBarSize"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/checkben">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:padding="5dp"
+                android:text="Payee/Beneficiary Name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentStart="true"
+                android:id="@+id/ablabel1"
+                android:textColor="@color/colorAccent" />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textPersonName"
+                android:ems="10"
+                android:id="@+id/payeename"
+                android:hint="Payee Name"
+                android:layout_below="@+id/ablabel1"
+                android:layout_alignParentStart="true" />
+
+            <TextView
+                android:padding="5dp"
+                android:text="Payee/Beneficiary Account No."
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/ablabel2"
+                android:layout_below="@+id/payeename"
+                android:layout_alignParentStart="true"
+                android:textColor="@color/colorAccent" />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="number"
+                android:ems="10"
+                android:id="@+id/payeeacc"
+                android:hint="Payee Account Number"
+                android:layout_below="@+id/ablabel2"
+                android:layout_alignParentStart="true" />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textPostalAddress"
+                android:ems="10"
+                android:id="@+id/payeeaddr"
+                android:hint="Payee Address"
+                android:layout_below="@+id/ablabel3"
+                android:layout_alignParentStart="true" />
+
+            <TextView
+                android:padding="5dp"
+                android:text="IFSC Code"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/ablabel4"
+                android:layout_below="@+id/payeeaddr"
+                android:layout_centerHorizontal="true"
+                android:textColor="@color/colorAccent" />
+
+            <TextView
+                android:padding="5dp"
+                android:text="Payee/Beneficiary Address"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/ablabel3"
+                android:layout_below="@+id/payeeacc"
+                android:layout_alignParentStart="true"
+                android:textColor="@color/colorAccent" />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textPersonName"
+                android:ems="10"
+                android:id="@+id/payeeifsc"
+                android:hint="IFSC Code"
+                android:layout_below="@+id/ablabel4"
+                android:layout_alignParentStart="true" />
+
+            <TextView
+                android:padding="5dp"
+                android:text="Set Transfer Limit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/ablabel5"
+                android:layout_below="@+id/payeeifsc"
+                android:layout_alignParentStart="true"
+                android:textColor="@color/colorAccent" />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="number"
+                android:ems="10"
+                android:id="@+id/payeelimit"
+                android:hint="Limit"
+                android:layout_below="@+id/ablabel5"
+                android:layout_alignParentStart="true" />
+        </RelativeLayout>
+    </ScrollView>
+
+    <Button
+        android:text="Add Beneficiary"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:id="@+id/addpayee"
+        android:textColorHint="@color/White"
+        android:backgroundTint="@color/Blue"
+        android:layout_toEndOf="@+id/cancel"
+        android:textColor="@color/White"
+        android:textAllCaps="false" />
+
+    <Button
+        android:text="Cancel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/cancel"
+        android:textColorHint="@color/White"
+        android:backgroundTint="@color/Blue"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"
+        android:textColor="@color/White"
+        android:textAllCaps="false" />
+
+    <CheckBox
+        android:text="I agree with the Terms &amp; Conditions"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/checkben"
+        android:layout_above="@+id/addpayee"
+        android:layout_alignParentStart="true" />
+
+</RelativeLayout>

@@ -1,6 +1,8 @@
 package com.pc.kaizer.netbank;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentTransaction;
@@ -17,6 +19,7 @@ import android.view.MenuItem;
 public class Home extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener  {
 
+    int counter=0;
     NavigationView navigationView = null;
     Toolbar toolbar = null;
 
@@ -33,15 +36,6 @@ public class Home extends AppCompatActivity
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -79,7 +73,24 @@ public class Home extends AppCompatActivity
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
-            return true;
+            counter++;
+            Handler handler = new Handler();
+            Runnable r = new Runnable() {
+
+                @Override
+                public void run() {
+                    counter = 0;
+                }
+            };
+
+            if(counter%2 == 0){
+                Intent intent = new Intent(this, LoginActivity.class);
+                startActivity(intent);
+            }
+            else {
+                handler.postDelayed(r, 400);
+                Snackbar.make(this.findViewById(android.R.id.content), "Tap again quickly to Logout", Snackbar.LENGTH_LONG).show();
+            }
         }
 
         return super.onOptionsItemSelected(item);
@@ -97,10 +108,22 @@ public class Home extends AppCompatActivity
             fragmentTransaction.replace(R.id.fragment_container, fragment);
             fragmentTransaction.commit();
         } else if (id == R.id.nav_bill) {
+            BillFragment fragment = new BillFragment();
+            FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+            fragmentTransaction.replace(R.id.fragment_container, fragment);
+            fragmentTransaction.commit();
 
         } else if (id == R.id.nav_fund) {
+            TransferFragment fragment = new TransferFragment();
+            FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+            fragmentTransaction.replace(R.id.fragment_container, fragment);
+            fragmentTransaction.commit();
 
         } else if (id == R.id.nav_stmt) {
+            StatementFragment fragment = new StatementFragment();
+            FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+            fragmentTransaction.replace(R.id.fragment_container, fragment);
+            fragmentTransaction.commit();
 
         } else if (id == R.id.nav_dd) {
 

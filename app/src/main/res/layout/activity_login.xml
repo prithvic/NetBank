@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_login"
     android:layout_width="match_parent"
@@ -21,33 +22,46 @@
         android:layout_marginBottom="8dp"
         android:visibility="gone" />
 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/Register"
+        android:hint="Register"
+        android:textColorHint="@color/White"
+        android:backgroundTint="@color/Blue"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true" />
+
+    <Button
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:id="@+id/button"
+    android:hint="Login"
+    android:textColorHint="@color/White"
+    android:backgroundTint="@color/Blue"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_toEndOf="@+id/Register" />
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:id="@+id/loginform">
+        android:id="@+id/loginform"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:layout_above="@+id/Register">
 
 
-        <Button
-            android:layout_width="wrap_content"
+        <TextView
+            android:padding="5dp"
+            android:text="User ID"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/Register"
-            android:hint="Register"
-            android:textColorHint="@color/White"
-            android:backgroundTint="@color/Blue"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentStart="true" />
-
-        <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/button"
-        android:hint="Login"
-        android:textColorHint="@color/White"
-        android:backgroundTint="@color/Blue"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentEnd="true"
-            android:layout_toEndOf="@+id/Register" />
+            android:id="@+id/uidlabel"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentStart="true"
+            android:textColor="@color/colorAccent" />
 
         <EditText
             android:layout_width="match_parent"
@@ -56,8 +70,18 @@
             android:hint="@string/userid"
             android:inputType="numberDecimal"
             android:selectAllOnFocus="true"
-            android:layout_alignParentTop="true"
+            android:layout_below="@+id/uidlabel"
             android:layout_alignParentStart="true" />
+
+        <TextView
+            android:padding="5dp"
+            android:text="Password"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/Password"
+            android:layout_below="@+id/editText"
+            android:layout_alignParentStart="true"
+            android:textColor="@color/colorAccent" />
 
         <EditText
             android:layout_width="match_parent"
@@ -66,10 +90,10 @@
             android:hint="@string/pass"
             android:inputType="textPassword"
             android:selectAllOnFocus="true"
-            android:layout_below="@+id/editText"
-            android:layout_alignParentStart="true"
             android:imeOptions="actionDone"
-            android:password="true" />
+            android:password="true"
+            android:layout_below="@+id/Password"
+            android:layout_alignParentStart="true" />
 
     </RelativeLayout>
 </RelativeLayout>
