@@ -7,6 +7,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.icu.text.LocaleDisplayNames;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
@@ -14,10 +15,15 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -144,13 +150,16 @@ public class LoginActivity extends AppCompatActivity {
     }
 
 
-    public class UserLoginTask extends AsyncTask<Void, Void, String> {
+    public class UserLoginTask extends AsyncTask<Void, Void, Boolean> {
 
         private final String mUID;
         private final String mPassword;
         private String response = null;
         private String login;
         private String data;
+        private Boolean success;
+        private String last_login;
+        private String mob;
 
         UserLoginTask(String uid, String password) {
             mUID = uid;
@@ -158,7 +167,7 @@ public class LoginActivity extends AppCompatActivity {
         }
 
         @Override
-        protected String doInBackground(Void... params) {
+        protected Boolean doInBackground(Void... params) {
 
             try {
                 login = "http://aa12112.16mb.com/init/login.php";
@@ -174,29 +183,39 @@ public class LoginActivity extends AppCompatActivity {
                 while ((response = reader.readLine()) != null) {
                     sb.append(response);
                 }
-                return sb.toString();
+                JSONObject jObject = new JSONObject(sb.toString());
+                JSONObject jArray = jObject.getJSONObject("res");
+                success = jArray.getBoolean("response");
+                last_login = jArray.getString("last");
+                mob=jArray.getString("mobile");
+                return success;
                 } catch (IOException e) {
                     e.printStackTrace();
-                }
-                return null;
+                } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            return null;
         }
 
         @Override
-        protected void onPostExecute(final String success) {
+        protected void onPostExecute(final Boolean success) {
             auth=null;
-            if (success.equals("Login Success.")) {
+            if (success) {
                 finish();
                 Intent goToNextActivity = new Intent(getApplicationContext(), Home.class);
                 startActivity(goToNextActivity);
                 SharedPreferences settings = getSharedPreferences(CRED, 0);
                 SharedPreferences.Editor editor = settings.edit();
+                Log.d("GG",last_login);
+                editor.putString("last_lgn",last_login);
                 editor.putString("uid",mUID);
+                editor.putString("mobile",mob);
                 editor.apply();
-                Toast.makeText(getApplicationContext(),success,Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(),"Login Success.",Toast.LENGTH_LONG).show();
             }
             else
             {
-                Toast.makeText(getApplicationContext(),success,Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(),"Login Failed.",Toast.LENGTH_LONG).show();
             }
         }
 

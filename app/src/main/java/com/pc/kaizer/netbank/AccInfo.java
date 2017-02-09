@@ -23,6 +23,7 @@ import static com.pc.kaizer.netbank.LoginActivity.CRED;
 
 public class AccInfo extends Fragment {
 
+
     public AccInfo() {
         // Required empty public constructor
     }
@@ -59,7 +60,7 @@ public class AccInfo extends Fragment {
                 String response;
                 SharedPreferences settings = getActivity().getSharedPreferences(CRED, 0);
                 userid = settings.getString("uid", null);
-                URL url = new URL("http://aa12112.16mb.com/Welcome/details.php");
+                URL url = new URL("http://aa12112.16mb.com/main_modules/details.php");
                 String data = URLEncoder.encode("userid", "UTF-8") + "=" + URLEncoder.encode(userid, "UTF-8");
                 URLConnection conn = url.openConnection();
                 conn.setDoOutput(true);
@@ -86,15 +87,15 @@ public class AccInfo extends Fragment {
 
         protected void onPostExecute(final Boolean success) {
             if(success) {
-                TextView mName;
-                TextView mAccno;
-                TextView mBal;
-                mName= (TextView) getActivity().findViewById(R.id.accinfo_name);
-                mAccno= (TextView) getActivity().findViewById(R.id.accinfo_accno);
-                mBal= (TextView) getActivity().findViewById(R.id.accinfo_Balance);
+                TextView mName= (TextView) getActivity().findViewById(R.id.accinfo_name);
+                TextView mAccno= (TextView) getActivity().findViewById(R.id.accinfo_accno);
+                TextView mBal= (TextView) getActivity().findViewById(R.id.accinfo_Balance);
+                TextView mLastLgn = (TextView) getActivity().findViewById(R.id.accinfo_label4);
                 mBal.setText("Bal.:"+bal);
                 mAccno.setText("A/C No.:"+accno);
                 mName.setText(fname + " " + lname);
+                SharedPreferences settings = getActivity().getSharedPreferences(CRED, 0);
+                mLastLgn.setText(settings.getString("last_lgn",""));
             }
         }
 

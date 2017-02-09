@@ -13,6 +13,7 @@
     <string name="accerr">Account number invalid</string>
     <string name="mobileinv">Mobile no invalid</string>
     <string name="otp">Enter OTP here</string>
+    <string name="inv_amt">Invalid amount</string>
     <string name="next">NEXT</string>
     <string name="skip">SKIP</string>
     <string name="start">LOGIN</string>

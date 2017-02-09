@@ -47,14 +47,32 @@
             android:layout_alignParentBottom="true"
             android:layout_alignParentEnd="true" />
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentStart="true"
+            android:padding="5dp"
+            android:layout_marginTop="80dp"
+            android:textColor="@color/colorAccent"
+            android:hint="Amount"/>
+
         <Spinner
             android:padding="5dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/benlist"
-            android:layout_below="@+id/selben"
             android:layout_alignParentStart="true"
-            android:layout_marginTop="11dp" />
+            android:layout_marginBottom="14dp" />
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Enter amount"
+            android:inputType="numberDecimal"
+            android:id="@+id/trnsamt"
+            android:layout_marginTop="100dp"
+            android:layout_alignParentStart="true" />
 
     </RelativeLayout>
 

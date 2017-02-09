@@ -22,7 +22,7 @@
 
             <TextView
                 android:padding="5dp"
-                android:text="Payee/Beneficiary Name"
+                android:text="Payee/Beneficiary Nick Name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentTop="true"
@@ -90,16 +90,6 @@
                 android:layout_alignParentStart="true"
                 android:textColor="@color/colorAccent" />
 
-            <EditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="textPersonName"
-                android:ems="10"
-                android:id="@+id/payeeifsc"
-                android:hint="IFSC Code"
-                android:layout_below="@+id/ablabel4"
-                android:layout_alignParentStart="true" />
-
             <TextView
                 android:padding="5dp"
                 android:text="Set Transfer Limit"
@@ -119,6 +109,16 @@
                 android:hint="Limit"
                 android:layout_below="@+id/ablabel5"
                 android:layout_alignParentStart="true" />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="number"
+                android:ems="10"
+                android:id="@+id/payeeifsc"
+                android:hint="IFSC Code"
+                android:layout_below="@+id/ablabel4"
+                android:layout_alignParentStart="true" />
         </RelativeLayout>
     </ScrollView>
 
@@ -129,6 +129,7 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
         android:id="@+id/addpayee"
+        android:onClick="addpayee"
         android:textColorHint="@color/White"
         android:backgroundTint="@color/Blue"
         android:layout_toEndOf="@+id/cancel"

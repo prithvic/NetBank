@@ -42,7 +42,6 @@
                 android:layout_alignParentStart="true" />
 
             <TextView
-                android:text="Mr. Fname Lname"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/Avatar"
@@ -54,7 +53,6 @@
                 android:paddingBottom="5dp"/>
 
             <TextView
-                android:text="A/C No. : XXXXXXXXXXXX"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/accinfo_accno"
@@ -66,7 +64,6 @@
                 android:textAlignment="center" />
 
             <TextView
-                android:text="Bal. : ₹ XXXXXXX"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/accinfo_accno"
