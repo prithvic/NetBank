@@ -3,11 +3,11 @@ created by admin-786
  */
 
 package com.pc.kaizer.netbank;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.icu.text.LocaleDisplayNames;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
@@ -40,7 +40,6 @@ public class LoginActivity extends AppCompatActivity {
     private EditText mUseridView;
     private EditText mPassView;
     private UserLoginTask auth;
-    boolean connect;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,7 +88,7 @@ public class LoginActivity extends AppCompatActivity {
     public void Login() {
 
         isConnectedToInternet();
-        if (isConnectedToInternet() == true) {
+        if (isConnectedToInternet()) {
             if (auth != null)
                 return;
             boolean cancel = false;
@@ -160,10 +159,19 @@ public class LoginActivity extends AppCompatActivity {
         private Boolean success;
         private String last_login;
         private String mob;
+        private ProgressDialog pDialog;
 
         UserLoginTask(String uid, String password) {
             mUID = uid;
             mPassword = getPassword(password);
+        }
+
+        @Override
+        protected void onPreExecute() {
+            pDialog = new ProgressDialog(LoginActivity.this);
+            pDialog.setMessage("Processing...");
+            pDialog.setCancelable(false);
+            pDialog.show();
         }
 
         @Override
@@ -189,17 +197,17 @@ public class LoginActivity extends AppCompatActivity {
                 last_login = jArray.getString("last");
                 mob=jArray.getString("mobile");
                 return success;
-                } catch (IOException e) {
+                } catch (IOException | JSONException e) {
                     e.printStackTrace();
-                } catch (JSONException e) {
-                e.printStackTrace();
-            }
+                }
             return null;
         }
 
         @Override
         protected void onPostExecute(final Boolean success) {
             auth=null;
+            if(pDialog.isShowing())
+                pDialog.dismiss();
             if (success) {
                 finish();
                 Intent goToNextActivity = new Intent(getApplicationContext(), Home.class);
