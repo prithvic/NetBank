@@ -18,13 +18,10 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
-import java.io.UnsupportedEncodingException;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLEncoder;
@@ -42,7 +39,6 @@ public class AddBenificiary extends Fragment {
     private EditText mPayeelimit;
     private CheckBox mCheckbox;
     private AlertDialog.Builder alertDialog;
-    private View viewInflated;
     private EditText input;
     private addPayee addp;
 
@@ -66,7 +62,7 @@ public class AddBenificiary extends Fragment {
         mCheckbox = (CheckBox) addview.findViewById(R.id.checkben);
         final Button btn = (Button) addview.findViewById(R.id.cancel);
         alertDialog = new AlertDialog.Builder(getActivity());
-        viewInflated = LayoutInflater.from(getActivity()).inflate(R.layout.dialoglayout,(ViewGroup) addview.findViewById(android.R.id.content), false);
+        View viewInflated = LayoutInflater.from(getActivity()).inflate(R.layout.dialoglayout,(ViewGroup) addview.findViewById(android.R.id.content), false);
         input = (EditText) viewInflated.findViewById(R.id.input);
         alertDialog.setView(viewInflated);
         btn.setOnClickListener(new View.OnClickListener(){
@@ -192,69 +188,71 @@ public class AddBenificiary extends Fragment {
 
     }
 
-}
-class addPayee extends AsyncTask<Void, Void, String>
-{
+    public class addPayee extends AsyncTask<Void, Void, String>
+    {
 
-    private String name;
-    private String accno;
-    private String add;
-    private String ifsc;
-    private String limit;
-    private Context mContext;
-    addPayee(String payeename,String payeeaccno,String payeeadd,String ifsc,String payeelimit,Context ctx ){
-        name=payeename;
-        accno=payeeaccno;
-        add=payeeadd;
-        this.ifsc=ifsc;
-        limit = payeelimit;
-        mContext=ctx;
-    }
+        private String name;
+        private String accno;
+        private String add;
+        private String ifsc;
+        private String limit;
+        private Context mContext;
+        addPayee(String payeename,String payeeaccno,String payeeadd,String ifsc,String payeelimit,Context ctx ){
+            name=payeename;
+            accno=payeeaccno;
+            add=payeeadd;
+            this.ifsc=ifsc;
+            limit = payeelimit;
+            mContext=ctx;
+        }
 
 
-    @Override
-    protected String doInBackground(Void... params) {
-        try
-        {
-            String response;
-            String addben = "http://aa12112.16mb.com/main_modules/addben.php";
-            URL url = new URL(addben);
-            SharedPreferences settings = mContext.getSharedPreferences(CRED, 0);
-            String data = URLEncoder.encode("userid", "UTF-8") + "=" + URLEncoder.encode(settings.getString("uid", null), "UTF-8")
-                            +"&"+URLEncoder.encode("bname", "UTF-8") + "=" + URLEncoder.encode(name, "UTF-8")
-                            +"&"+URLEncoder.encode("baccno", "UTF-8") + "=" + URLEncoder.encode(accno, "UTF-8")
-                            +"&"+URLEncoder.encode("baddr", "UTF-8") + "=" + URLEncoder.encode(add, "UTF-8")
-                            +"&"+URLEncoder.encode("bifsc", "UTF-8") + "=" + URLEncoder.encode(ifsc, "UTF-8")
-                            +"&"+URLEncoder.encode("blimit", "UTF-8") + "=" + URLEncoder.encode(limit, "UTF-8");
-            URLConnection conn = url.openConnection();
-            conn.setDoOutput(true);
-            OutputStreamWriter wr = new OutputStreamWriter(conn.getOutputStream());
-            wr.write(data);
-            wr.flush();
-            BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-            StringBuilder sb = new StringBuilder();
-            while ((response = reader.readLine()) != null) {
-                sb.append(response);
+        @Override
+        protected String doInBackground(Void... params) {
+            try
+            {
+                String response;
+                String addben = "http://aa12112.16mb.com/main_modules/addben.php";
+                URL url = new URL(addben);
+                SharedPreferences settings = mContext.getSharedPreferences(CRED, 0);
+                String data = URLEncoder.encode("userid", "UTF-8") + "=" + URLEncoder.encode(settings.getString("uid", null), "UTF-8")
+                        +"&"+URLEncoder.encode("bname", "UTF-8") + "=" + URLEncoder.encode(name, "UTF-8")
+                        +"&"+URLEncoder.encode("baccno", "UTF-8") + "=" + URLEncoder.encode(accno, "UTF-8")
+                        +"&"+URLEncoder.encode("baddr", "UTF-8") + "=" + URLEncoder.encode(add, "UTF-8")
+                        +"&"+URLEncoder.encode("bifsc", "UTF-8") + "=" + URLEncoder.encode(ifsc, "UTF-8")
+                        +"&"+URLEncoder.encode("blimit", "UTF-8") + "=" + URLEncoder.encode(limit, "UTF-8");
+                URLConnection conn = url.openConnection();
+                conn.setDoOutput(true);
+                OutputStreamWriter wr = new OutputStreamWriter(conn.getOutputStream());
+                wr.write(data);
+                wr.flush();
+                BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+                StringBuilder sb = new StringBuilder();
+                while ((response = reader.readLine()) != null) {
+                    sb.append(response);
+                }
+                return sb.toString();
+            } catch (IOException e) {
+                e.printStackTrace();
             }
-            return sb.toString();
-        } catch (IOException e) {
-            e.printStackTrace();
+
+            return null;
         }
 
-        return null;
-    }
+        @Override
+        protected void onPostExecute(String s) {
+            if(s.equals("added"))
+            {
+                Toast.makeText(mContext,"Benificiary added",Toast.LENGTH_SHORT).show();
 
-    @Override
-    protected void onPostExecute(String s) {
-        if(s.equals("added"))
-        {
-            Toast.makeText(mContext,"Benificiary added",Toast.LENGTH_SHORT).show();
-
-        }
-        else
-        {
-            Toast.makeText(mContext,s,Toast.LENGTH_SHORT).show();
+            }
+            else
+            {
+                Toast.makeText(mContext,s,Toast.LENGTH_SHORT).show();
+            }
         }
     }
+
 }
+
 
