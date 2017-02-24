@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">NetBank</string>
+    <string name="app_name">NetBankFire</string>
     <string name="email">Email</string>
     <string name="userid">User ID</string>
     <string name="pass">Password</string>

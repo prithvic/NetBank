@@ -7,45 +7,46 @@ import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.os.AsyncTask;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import org.json.JSONException;
-import org.json.JSONObject;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.net.URL;
-import java.net.URLConnection;
-import java.net.URLEncoder;
 import java.util.regex.Pattern;
-import static com.pc.kaizer.netbank.getSecurePassword.getPassword;
 
 
 public class LoginActivity extends AppCompatActivity {
     public static final String CRED = "ACCDETAILS";
     private EditText mUseridView;
     private EditText mPassView;
+    private FirebaseAuth mFirebaseAuth;
+    private DatabaseReference mDatabase;
+    private ProgressDialog progress;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-
+        mFirebaseAuth = FirebaseAuth.getInstance();
+        mDatabase = FirebaseDatabase.getInstance().getReference();
         mUseridView = (EditText) findViewById(R.id.editText);
         mPassView = (EditText) findViewById(R.id.editText1);
 
@@ -91,7 +92,7 @@ public class LoginActivity extends AppCompatActivity {
             boolean cancel = false;
             View focusView = null;
             String userid = mUseridView.getText().toString();
-            String password = mPassView.getText().toString();
+            final String password = mPassView.getText().toString();
             mUseridView.setError(null);
             mPassView.setError(null);
             if (TextUtils.isEmpty(userid)) {
@@ -111,13 +112,35 @@ public class LoginActivity extends AppCompatActivity {
             }
             if (pass_chk(password)) {
                 cancel = true;
-                mPassView.setError(getString(R.string.invalid));
+                mPassView.setError("Empty input field");
                 focusView = mPassView;
             }
             if (cancel) {
                 focusView.requestFocus();
             } else {
+                progress = new ProgressDialog(LoginActivity.this);
+                progress.setCancelable(true);
+                progress.setMessage("Logging in");
+                progress.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+                progress.show();
+                mDatabase.child("users").child(userid).child("email").addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        if(dataSnapshot.getValue()!=null)
+                        {
+                            authlogin(dataSnapshot.getValue().toString(),password);
+                        }
+                        else
+                        {
+                            Toast.makeText(LoginActivity.this,"No such user",Toast.LENGTH_LONG).show();
+                        }
+                    }
 
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                        Toast.makeText(LoginActivity.this,"Database error",Toast.LENGTH_LONG).show();
+                    }
+                });
             }
         }
         else
@@ -144,6 +167,23 @@ public class LoginActivity extends AppCompatActivity {
         return !Pattern.matches("[a-zA-Z]+", id) && (id.length() > 0 || id.length() < 7) && id.length() == 6;
     }
 
+    public void authlogin(String uid,String pass)
+    {
+        mFirebaseAuth.signInWithEmailAndPassword(uid,pass).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+            @Override
+            public void onComplete(@NonNull Task<AuthResult> task) {
+                if (task.isSuccessful()) {
 
+                    Toast.makeText(LoginActivity.this,"Login Successful",Toast.LENGTH_LONG).show();
+                    Intent goToNextActivity = new Intent(getApplicationContext(), Home.class);
+                    startActivity(goToNextActivity);
+                }
+                else {
+                    progress.dismiss();
+                    Toast.makeText(LoginActivity.this,"Login failed check userid or password",Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+    }
 
 }
