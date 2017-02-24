@@ -39,7 +39,6 @@ public class LoginActivity extends AppCompatActivity {
     public static final String CRED = "ACCDETAILS";
     private EditText mUseridView;
     private EditText mPassView;
-    private UserLoginTask auth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,8 +88,6 @@ public class LoginActivity extends AppCompatActivity {
 
         isConnectedToInternet();
         if (isConnectedToInternet()) {
-            if (auth != null)
-                return;
             boolean cancel = false;
             View focusView = null;
             String userid = mUseridView.getText().toString();
@@ -120,8 +117,7 @@ public class LoginActivity extends AppCompatActivity {
             if (cancel) {
                 focusView.requestFocus();
             } else {
-                auth = new UserLoginTask(userid, password);
-                auth.execute((Void) null);
+
             }
         }
         else
@@ -148,91 +144,6 @@ public class LoginActivity extends AppCompatActivity {
         return !Pattern.matches("[a-zA-Z]+", id) && (id.length() > 0 || id.length() < 7) && id.length() == 6;
     }
 
-
-    public class UserLoginTask extends AsyncTask<Void, Void, Boolean> {
-
-        private final String mUID;
-        private final String mPassword;
-        private String response = null;
-        private String login;
-        private String data;
-        private Boolean success;
-        private String last_login;
-        private String mob;
-        private ProgressDialog pDialog;
-
-        UserLoginTask(String uid, String password) {
-            mUID = uid;
-            mPassword = getPassword(password);
-        }
-
-        @Override
-        protected void onPreExecute() {
-            pDialog = new ProgressDialog(LoginActivity.this);
-            pDialog.setMessage("Processing...");
-            pDialog.setCancelable(false);
-            pDialog.show();
-        }
-
-        @Override
-        protected Boolean doInBackground(Void... params) {
-
-            try {
-                login = "http://aa12112.16mb.com/init/login.php";
-                data = URLEncoder.encode("uid", "UTF-8") + "=" + URLEncoder.encode(mUID, "UTF-8") + "&" + URLEncoder.encode("pass", "UTF-8") + "=" + URLEncoder.encode(mPassword, "UTF-8");
-                URL url = new URL(login);
-                URLConnection conn = url.openConnection();
-                conn.setDoOutput(true);
-                OutputStreamWriter wr = new OutputStreamWriter(conn.getOutputStream());
-                wr.write(data);
-                wr.flush();
-                BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-                StringBuilder sb = new StringBuilder();
-                while ((response = reader.readLine()) != null) {
-                    sb.append(response);
-                }
-                JSONObject jObject = new JSONObject(sb.toString());
-                JSONObject jArray = jObject.getJSONObject("res");
-                success = jArray.getBoolean("response");
-                last_login = jArray.getString("last");
-                mob=jArray.getString("mobile");
-                return success;
-                } catch (IOException | JSONException e) {
-                    e.printStackTrace();
-                }
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(final Boolean success) {
-            auth=null;
-            if(pDialog.isShowing())
-                pDialog.dismiss();
-            if (success) {
-                finish();
-                Intent goToNextActivity = new Intent(getApplicationContext(), Home.class);
-                startActivity(goToNextActivity);
-                SharedPreferences settings = getSharedPreferences(CRED, 0);
-                SharedPreferences.Editor editor = settings.edit();
-                Log.d("GG",last_login);
-                editor.putString("last_lgn",last_login);
-                editor.putString("uid",mUID);
-                editor.putString("mobile",mob);
-                editor.apply();
-                Toast.makeText(getApplicationContext(),"Login Success.",Toast.LENGTH_LONG).show();
-            }
-            else
-            {
-                Toast.makeText(getApplicationContext(),"Login Failed.",Toast.LENGTH_LONG).show();
-            }
-        }
-
-        @Override
-        protected void onCancelled() {
-
-            auth=null;
-        }
-    }
 
 
 }
