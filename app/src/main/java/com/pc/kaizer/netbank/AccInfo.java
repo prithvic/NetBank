@@ -32,7 +32,7 @@ public class AccInfo extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        new Details().execute();
+
     }
 
     @Override
@@ -42,73 +42,10 @@ public class AccInfo extends Fragment {
         return inflater.inflate(R.layout.fragment_acc_info, container, false);
     }
 
-    public void onActivityCreated(Bundle savedInstanceState)
-    {
+    public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
     }
 
-    class Details extends AsyncTask<Void, Void, Boolean> {
-
-        private String fname;
-        private String lname;
-        private String bal;
-        private String userid;
-        private String accno;
-        @Override
-        protected Boolean doInBackground(Void... params) {
-            try {
-                String response;
-                SharedPreferences settings = getActivity().getSharedPreferences(CRED, 0);
-                userid = settings.getString("uid", null);
-                URL url = new URL("http://aa12112.16mb.com/main_modules/details.php");
-                String data = URLEncoder.encode("userid", "UTF-8") + "=" + URLEncoder.encode(userid, "UTF-8");
-                URLConnection conn = url.openConnection();
-                conn.setDoOutput(true);
-                OutputStreamWriter wr = new OutputStreamWriter(conn.getOutputStream());
-                wr.write(data);
-                wr.flush();
-                BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-                StringBuilder sb = new StringBuilder();
-                while ((response = reader.readLine()) != null) {
-                    sb.append(response);
-                }
-                JSONObject jObject = new JSONObject(sb.toString());
-                JSONObject jArray = jObject.getJSONObject("res");
-                    fname = jArray.getString("fname");
-                    lname = jArray.getString("lname");
-                    bal = jArray.getString("bal");
-                    accno = jArray.getString("accno");
-                return true;
-            } catch (IOException | JSONException e) {
-                e.printStackTrace();
-            }
-            return false;
-        }
-
-        protected void onPostExecute(final Boolean success) {
-            if(success) {
-                TextView mName= (TextView) getActivity().findViewById(R.id.accinfo_name);
-                TextView mAccno= (TextView) getActivity().findViewById(R.id.accinfo_accno);
-                TextView mBal= (TextView) getActivity().findViewById(R.id.accinfo_Balance);
-                TextView mLastLgn = (TextView) getActivity().findViewById(R.id.accinfo_label4);
-                mBal.setText("Bal.:"+bal);
-                mAccno.setText("A/C No.:"+accno);
-                mName.setText(fname + " " + lname);
-                SharedPreferences settings = getActivity().getSharedPreferences(CRED, 0);
-                mLastLgn.setText(settings.getString("last_lgn",""));
-            }
-        }
-
-    }
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-    }
 
 }
+

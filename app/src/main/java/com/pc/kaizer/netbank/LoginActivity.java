@@ -7,6 +7,7 @@ import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.support.annotation.NonNull;
@@ -18,7 +19,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
-
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -28,7 +28,9 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.regex.Pattern;
 
 
@@ -91,7 +93,7 @@ public class LoginActivity extends AppCompatActivity {
         if (isConnectedToInternet()) {
             boolean cancel = false;
             View focusView = null;
-            String userid = mUseridView.getText().toString();
+            final String userid = mUseridView.getText().toString();
             final String password = mPassView.getText().toString();
             mUseridView.setError(null);
             mPassView.setError(null);
@@ -123,12 +125,12 @@ public class LoginActivity extends AppCompatActivity {
                 progress.setMessage("Logging in");
                 progress.setProgressStyle(ProgressDialog.STYLE_SPINNER);
                 progress.show();
-                mDatabase.child("users").child(userid).child("email").addListenerForSingleValueEvent(new ValueEventListener() {
+                mDatabase.child("users").child(userid).addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         if(dataSnapshot.getValue()!=null)
                         {
-                            authlogin(dataSnapshot.getValue().toString(),password);
+                            authlogin(dataSnapshot.getValue().toString(),password,userid);
                         }
                         else
                         {
@@ -167,16 +169,23 @@ public class LoginActivity extends AppCompatActivity {
         return !Pattern.matches("[a-zA-Z]+", id) && (id.length() > 0 || id.length() < 7) && id.length() == 6;
     }
 
-    public void authlogin(String uid,String pass)
+    public void authlogin(String email,String pass,final String uid)
     {
-        mFirebaseAuth.signInWithEmailAndPassword(uid,pass).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+        mFirebaseAuth.signInWithEmailAndPassword(email,pass).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()) {
-
+                    progress.dismiss();
+                    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy-hh:mm:ss");
+                    String format = simpleDateFormat.format(new Date());
+                    DatabaseReference DB = FirebaseDatabase.getInstance().getReference();
+                    DB.child("users").child(uid).child("last_login").setValue(format);
                     Toast.makeText(LoginActivity.this,"Login Successful",Toast.LENGTH_LONG).show();
                     Intent goToNextActivity = new Intent(getApplicationContext(), Home.class);
                     startActivity(goToNextActivity);
+                    SharedPreferences settings = getSharedPreferences(CRED, 0);
+                    SharedPreferences.Editor editor = settings.edit();
+
                 }
                 else {
                     progress.dismiss();
@@ -185,5 +194,4 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
     }
-
 }

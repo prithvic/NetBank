@@ -1,6 +1,5 @@
 package com.pc.kaizer.netbank;
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.annotation.NonNull;
@@ -8,7 +7,6 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,7 +15,6 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
-
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -45,16 +42,16 @@ public class RegisterActivity extends AppCompatActivity {
     private EditText mConfirmpass;
     private FirebaseAuth mFirebaseAuth;
     private String otp;
+    private String new_uid;
     private DatabaseReference mDatabase;
     private ProgressDialog progress;
-    private boolean resp =true;
-    private boolean resp2 =false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
         mDatabase = FirebaseDatabase.getInstance().getReference();
+        mFirebaseAuth = FirebaseAuth.getInstance();
         mFnameView = (EditText) findViewById(R.id.fname);
         mLnameView = (EditText) findViewById(R.id.lname);
         mEmailView = (EditText) findViewById(R.id.newemail);
@@ -90,7 +87,7 @@ public class RegisterActivity extends AppCompatActivity {
 
         Random r = new Random(System.currentTimeMillis());
         otp = String.valueOf((1 + r.nextInt(2)) * 10000 + r.nextInt(10000));
-        final String new_uid = String.valueOf(100000 + r.nextInt(900000));
+        new_uid = String.valueOf(100000 + r.nextInt(900000));
         final String Fname = mFnameView.getText().toString();
         final String Lname = mLnameView.getText().toString();
         final String Email = mEmailView.getText().toString();
@@ -106,6 +103,8 @@ public class RegisterActivity extends AppCompatActivity {
         mEmailView.setError(null);
         mMobileView.setError(null);
         mAddrView.setError(null);
+        mPassView.setError(null);
+        mConfirmpass.setError(null);
         if (!name_chk(Fname)) {
             cancel = true;
             mFnameView.setError(getString(R.string.invinp));
@@ -172,21 +171,39 @@ public class RegisterActivity extends AppCompatActivity {
                 focusView.requestFocus();
             }
         } else {
-            if(!isCreated(Accno))
-            {
-                if(isVerified(Mobile))
-                {
-                    reg_user(Fname,Lname,Email,Mobile,Address,Accno,new_uid,pass);
-                }
-                else
-                {
-                    Toast.makeText(getApplicationContext(), "OTP verification failed", Toast.LENGTH_LONG).show();
-                }
-            }
-            else {
-                Toast.makeText(getApplicationContext(), "Internet Banking account aldready created", Toast.LENGTH_LONG).show();
-            }
+            progress = new ProgressDialog(RegisterActivity.this);
+            progress.setCancelable(true);
+            progress.setMessage("Registering User");
+            progress.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+            progress.show();
+            mDatabase.child("accounts").child(Accno).child("status").addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    if(dataSnapshot.getValue()!=null)
+                    {
+                        if(dataSnapshot.getValue().toString().equals("pending"))
+                        {
+                            progress.dismiss();
+                            isVerified(Fname,Lname,Email,Mobile,Address,Accno,new_uid,pass);
+                        }
+                        else
+                        {
+                            progress.dismiss();
+                            Toast.makeText(RegisterActivity.this,"Account aldready created",Toast.LENGTH_LONG).show();
+                        }
+                    }
+                    else
+                    {
+                        progress.dismiss();
+                        Toast.makeText(RegisterActivity.this,"No such account number exists",Toast.LENGTH_LONG).show();
+                    }
 
+                }
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+                    Toast.makeText(RegisterActivity.this,"Database error",Toast.LENGTH_LONG).show();
+                }
+            });
         }
 
     }
@@ -219,33 +236,10 @@ public class RegisterActivity extends AppCompatActivity {
         return !Pattern.matches("[a-zA-Z]+", accno) && (accno.length() > 0 || accno.length() < 12) && accno.length() == 11;
     }
 
-    private boolean isCreated(String accno)
+    private void isVerified(final String fname, final String lname, final String email, final String mob, final String addr, final String acc_no, final String uid, final String pass)
     {
-        mDatabase.child("accounts").child(accno).child("status").addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                if(dataSnapshot.getValue()!=null)
-                {
-                    if(dataSnapshot.getValue().toString().equals("pending"))
-                    {
-                        resp=false;
-                    }
-                }
-                else
-                    Toast.makeText(RegisterActivity.this,"No such account number exists",Toast.LENGTH_LONG).show();
-            }
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                Toast.makeText(RegisterActivity.this,"Database error",Toast.LENGTH_LONG).show();
-            }
-        });
-        return resp;
-    }
-
-    private boolean isVerified(String mob)
-    {
-        otpRequest req;
-        req = new otpRequest(mob, otp, getApplicationContext());
+        progress.dismiss();
+        otpRequest req = new otpRequest(mob, otp, getApplicationContext());
         req.execute((Void) null);
         final AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
         View viewInflated = LayoutInflater.from(this).inflate(R.layout.dialoglayout, (ViewGroup) findViewById(android.R.id.content), false);
@@ -257,7 +251,34 @@ public class RegisterActivity extends AppCompatActivity {
                 String OTP = input.getText().toString();
                 if (OTP.equals(otp))
                 {
-                    resp2=true;
+                    mFirebaseAuth.createUserWithEmailAndPassword(email,pass).addOnCompleteListener(RegisterActivity.this, new OnCompleteListener<AuthResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+                            if(task.isSuccessful())
+                            {
+                                String init = "Hello "+fname+" "+lname+" your userid is "+uid+"."+"\nDelete this message after noting down the credentials."+"\nThanks,\nYour NetBankFire team";
+                                DatabaseReference DB = FirebaseDatabase.getInstance().getReference();
+                                DB.child("accounts").child(acc_no).child("status").setValue("created");
+                                DB.child("users").child(uid).child("account_no").setValue(acc_no);
+                                DB.child("users").child(uid).child("email").setValue(email);
+                                DB.child("users").child(uid).child("name").setValue(fname+" "+lname);
+                                DB.child("users").child(uid).child("address").setValue(addr);
+                                DB.child("users").child(uid).child("mobile").setValue(mob);
+                                SendMail snd;
+                                snd = new SendMail(email,"Login Credentials",init,getApplicationContext());
+                                snd.execute((Void)null);
+                                Toast.makeText(getApplicationContext(), "Creation success", Toast.LENGTH_LONG).show();
+                            }
+                            else
+                            {
+                                Toast.makeText(getApplicationContext(), "Creation failed", Toast.LENGTH_LONG).show();
+                            }
+                        }
+                    });
+                }
+                else
+                {
+                    Toast.makeText(getApplicationContext(), "OTP verification failed", Toast.LENGTH_LONG).show();
                 }
             }
         });
@@ -268,30 +289,6 @@ public class RegisterActivity extends AppCompatActivity {
             }
         });
         alertDialog.show();
-        return resp2;
     }
-
-    private void reg_user(String fname, String lname, final String email, String mob, String addr, final String acc_no, final String uid, String pass)
-    {
-        mFirebaseAuth.createUserWithEmailAndPassword(email,pass)
-                .addOnCompleteListener(RegisterActivity.this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if(task.isSuccessful())
-                        {
-                            DatabaseReference DB = FirebaseDatabase.getInstance().getReference();
-                            DB.child("accounts").child(acc_no).child("status").setValue("created");
-                            DB.child("users").child(uid).child("account_no").setValue(acc_no);
-                            DB.child("users").child(uid).child("email").setValue(email);
-                            Toast.makeText(getApplicationContext(), "Creation success", Toast.LENGTH_LONG).show();
-                        }
-                        else
-                        {
-                            Toast.makeText(getApplicationContext(), "Creation failed", Toast.LENGTH_LONG).show();
-                        }
-                    }
-                });
-    }
-
 
 }
