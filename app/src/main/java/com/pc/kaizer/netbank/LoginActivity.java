@@ -125,7 +125,7 @@ public class LoginActivity extends AppCompatActivity {
                 progress.setMessage("Logging in");
                 progress.setProgressStyle(ProgressDialog.STYLE_SPINNER);
                 progress.show();
-                mDatabase.child("users").child(userid).addListenerForSingleValueEvent(new ValueEventListener() {
+                mDatabase.child("users").child(userid).child("email").addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         if(dataSnapshot.getValue()!=null)
@@ -178,13 +178,15 @@ public class LoginActivity extends AppCompatActivity {
                     progress.dismiss();
                     SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy-hh:mm:ss");
                     String format = simpleDateFormat.format(new Date());
+                    SharedPreferences settings = getSharedPreferences(CRED, 0);
+                    SharedPreferences.Editor editor = settings.edit();
+                    editor.putString("uid",uid);
+                    editor.apply();
                     DatabaseReference DB = FirebaseDatabase.getInstance().getReference();
                     DB.child("users").child(uid).child("last_login").setValue(format);
                     Toast.makeText(LoginActivity.this,"Login Successful",Toast.LENGTH_LONG).show();
                     Intent goToNextActivity = new Intent(getApplicationContext(), Home.class);
                     startActivity(goToNextActivity);
-                    SharedPreferences settings = getSharedPreferences(CRED, 0);
-                    SharedPreferences.Editor editor = settings.edit();
 
                 }
                 else {

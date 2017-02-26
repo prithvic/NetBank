@@ -58,9 +58,4 @@ public class SendMail extends AsyncTask<Void,Void,Void> {
         }
         return null;
     }
-
-    @Override
-    protected void onPostExecute(Void aVoid) {
-        Toast.makeText(ctx,"EMAIL SENT",Toast.LENGTH_LONG).show();
-    }
 }

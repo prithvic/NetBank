@@ -1,7 +1,9 @@
 package com.pc.kaizer.netbank;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -28,6 +30,8 @@ import java.util.Random;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static com.pc.kaizer.netbank.R.style.Theme_AppCompat_Dialog;
+
 
 public class RegisterActivity extends AppCompatActivity {
 
@@ -45,6 +49,7 @@ public class RegisterActivity extends AppCompatActivity {
     private String new_uid;
     private DatabaseReference mDatabase;
     private ProgressDialog progress;
+    private Context ctx;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,6 +67,7 @@ public class RegisterActivity extends AppCompatActivity {
         mConfirmpass = (EditText) findViewById(R.id.confirmpass);
         mCheckbox = (CheckBox) findViewById(R.id.checkBox);
         Button LoginButton = (Button) findViewById(R.id.login);
+        ctx= getApplicationContext();
         LoginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -183,7 +189,6 @@ public class RegisterActivity extends AppCompatActivity {
                     {
                         if(dataSnapshot.getValue().toString().equals("pending"))
                         {
-                            progress.dismiss();
                             isVerified(Fname,Lname,Email,Mobile,Address,Accno,new_uid,pass);
                         }
                         else
@@ -201,6 +206,7 @@ public class RegisterActivity extends AppCompatActivity {
                 }
                 @Override
                 public void onCancelled(DatabaseError databaseError) {
+                    progress.dismiss();
                     Toast.makeText(RegisterActivity.this,"Database error",Toast.LENGTH_LONG).show();
                 }
             });
@@ -267,11 +273,11 @@ public class RegisterActivity extends AppCompatActivity {
                                 SendMail snd;
                                 snd = new SendMail(email,"Login Credentials",init,getApplicationContext());
                                 snd.execute((Void)null);
-                                Toast.makeText(getApplicationContext(), "Creation success", Toast.LENGTH_LONG).show();
+                                alert();
                             }
                             else
                             {
-                                Toast.makeText(getApplicationContext(), "Creation failed", Toast.LENGTH_LONG).show();
+                                Toast.makeText(getApplicationContext(),task.getException().getMessage(), Toast.LENGTH_LONG).show();
                             }
                         }
                     });
@@ -289,6 +295,20 @@ public class RegisterActivity extends AppCompatActivity {
             }
         });
         alertDialog.show();
+    }
+
+    void alert()
+    {
+        AlertDialog.Builder builder = new AlertDialog.Builder(RegisterActivity.this,Theme_AppCompat_Dialog);
+        builder.setMessage("Login details have been sent to you email.Redirecting you to login page")
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Intent goToNextActivity = new Intent(getApplicationContext(),LoginActivity.class);
+                        startActivity(goToNextActivity);
+                    }
+                });
+        builder.show();
     }
 
 }

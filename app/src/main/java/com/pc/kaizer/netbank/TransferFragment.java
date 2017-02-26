@@ -1,13 +1,15 @@
 package com.pc.kaizer.netbank;
 
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,19 +18,13 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.net.URL;
-import java.net.URLConnection;
-import java.net.URLEncoder;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
-
-import static com.pc.kaizer.netbank.LoginActivity.CRED;
+import static com.pc.kaizer.netbank.R.style.Theme_AppCompat_Dialog;
 
 
 /**
@@ -39,7 +35,12 @@ public class TransferFragment extends Fragment {
     private Spinner list;
     private Button trns;
     private EditText amt;
-
+    private DatabaseReference mDatabase;
+    private ArrayList<String> payees = new ArrayList<String>();
+    private ArrayList<String> limit = new ArrayList<String>();
+    private ArrayList<String> type = new ArrayList<String>();
+    private ArrayList<String> baccno = new ArrayList<String>();
+    private String balance;
     public TransferFragment() {
         // Required empty public constructor
     }
@@ -49,9 +50,11 @@ public class TransferFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_transfer, container, false);
+        mDatabase = FirebaseDatabase.getInstance().getReference();
         trns = (Button) v.findViewById(R.id.transfer);
         amt = (EditText) v.findViewById(R.id.trnsamt);
         list = (Spinner) v.findViewById(R.id.benlist);
+        //
         FloatingActionButton fab = (FloatingActionButton) v.findViewById(R.id.addben);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -67,7 +70,7 @@ public class TransferFragment extends Fragment {
         trns.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new transfer().execute();
+                transfer();
             }
         });
     return v;
@@ -76,148 +79,138 @@ public class TransferFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        new populate_benificiary().execute();
-
-    }
-    class populate_benificiary extends AsyncTask<Void, Void, Boolean>
-    {
-        private ArrayList<String> benilist = new ArrayList<String>();
-
-        @Override
-        protected Boolean doInBackground(Void... params) {
-
-            try
-            {
-                String response;
-                String fetchben = "http://aa12112.16mb.com/main_modules/fetchben.php";
-                URL url = new URL(fetchben);
-                SharedPreferences settings = getActivity().getSharedPreferences(CRED, 0);
-                String data = URLEncoder.encode("userid", "UTF-8") + "=" + URLEncoder.encode(settings.getString("uid", null),"UTF-8");
-                URLConnection conn = url.openConnection();
-                conn.setDoOutput(true);
-                OutputStreamWriter wr = new OutputStreamWriter(conn.getOutputStream());
-                wr.write(data);
-                wr.flush();
-                BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-                StringBuilder sb = new StringBuilder();
-                while ((response = reader.readLine()) != null) {
-                    sb.append(response);
-                }
-                JSONObject jsonobj = new JSONObject(sb.toString());
-                JSONArray jarray = jsonobj.getJSONArray("benificiary");
-                benilist.add("Select Benificiary");
-                for(int i=0 ;i<jarray.length();i++)
-                {
-                    jsonobj = jarray.getJSONObject(i);
-
-                    benilist.add(jsonobj.optString("b_name"));
-                }
-                return true;
-            } catch (IOException | JSONException e) {
-                e.printStackTrace();
-            }
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Boolean s) {
-            if(s)
-            {
-                list.setAdapter(new ArrayAdapter<String>(getActivity(),android.R.layout.simple_spinner_dropdown_item,benilist));
-            }
-            else
-            {
-                Toast.makeText(getActivity(),"Failed to populate list",Toast.LENGTH_LONG).show();
-            }
-
-
-        }
     }
 
-    class transfer extends AsyncTask<Void,Void,String>
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        populate_list();
+    }
+
+    void populate_list()
     {
-        private String amount;
-        private String benificiary;
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            amount = amt.getText().toString();
-            if(TextUtils.isDigitsOnly(amount) && !TextUtils.isEmpty(amount))
-            {
-                float trnsamt = Float.parseFloat(amount);
-                if(trnsamt%100 !=0 && trnsamt %500 !=0)
-                {
-                    Toast.makeText(getActivity(),"Enter valid amount",Toast.LENGTH_LONG).show();
-                    cancel(true);
+        payees.add("Select benificiary");
+        SharedPreferences settings = getActivity().getSharedPreferences("ACCDETAILS", 0);
+        mDatabase.child("users").child(settings.getString("uid","")).child("benificiaries").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if(dataSnapshot!=null) {
+                    for (DataSnapshot dsp : dataSnapshot.getChildren()) {
+                        payees.add(dsp.getKey());
+                        limit.add(dsp.child("limit").getValue().toString());
+                        type.add(dsp.child("type").getValue().toString());
+                        baccno.add(dsp.child("baccno").getValue().toString());
+                    }
+                    list.setAdapter(new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_dropdown_item, payees));
                 }
                 else
                 {
-                    if(list != null && list.getSelectedItem()!= null)
-                    {
-                        benificiary = (String) list.getSelectedItem();
-                        if(benificiary!="Select Benificiary")
-                        {
-                            Toast.makeText(getActivity(),"Proccessing",Toast.LENGTH_LONG).show();
+                    Toast.makeText(getActivity(),"Something went wrong",Toast.LENGTH_LONG).show();
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    void transfer()
+    {
+        final String amount = amt.getText().toString();
+        final String benlimit;
+        final String bentype;
+        final String benacc;
+        if(TextUtils.isDigitsOnly(amount) && !TextUtils.isEmpty(amount) && (Float.parseFloat(amount)%100==0 || Float.parseFloat(amount)%500==0))
+        {
+            if(list!=null && list.getSelectedItem()!=null && !list.getSelectedItem().toString().equals("Select benificiary"))
+            {
+                int pos = payees.indexOf(list.getSelectedItem())-1;
+                benlimit = limit.get(pos);
+                Log.d("limit:",benlimit);
+                bentype = type.get(pos);
+                Log.d("type: ",bentype);
+                benacc = baccno.get(pos);
+                if(Float.parseFloat(amount)<Float.parseFloat(benlimit))
+                {
+                    SharedPreferences settings = getActivity().getSharedPreferences("ACCDETAILS", 0);
+                    final String accno = settings.getString("acc_no","");
+                    mDatabase.child("accounts").child(accno).child("balance").addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            balance=dataSnapshot.getValue().toString();
+                            if(Float.parseFloat(balance)>Float.parseFloat(amount) && Float.parseFloat(balance)>1000)
+                            {
+                                if(bentype.equals("inbank"))
+                                {
+                                    mDatabase.child("accounts").child(benacc).child("balance").addListenerForSingleValueEvent(new ValueEventListener() {
+                                        @Override
+                                        public void onDataChange(DataSnapshot dataSnapshot) {
+                                            String payeebal = dataSnapshot.getValue().toString();
+                                            String update1 = String.valueOf(Float.parseFloat(balance)-Float.parseFloat(amount));
+                                            String update2 = String.valueOf(Float.parseFloat(payeebal)+Float.parseFloat(amount));
+                                            DatabaseReference DB = FirebaseDatabase.getInstance().getReference();
+                                            DB.child("accounts").child(accno).child("balance").setValue(update1);
+                                            DB.child("accounts").child(benacc).child("balance").setValue(update2);
+                                            alert("Transfer Successful");
+                                        }
+                                        @Override
+                                        public void onCancelled(DatabaseError databaseError) {
+
+                                        }
+                                    });
+                                }
+                                else
+                                {
+                                    String update1 = String.valueOf(Float.parseFloat(balance)-Float.parseFloat(amount));
+                                    DatabaseReference DB = FirebaseDatabase.getInstance().getReference();
+                                    DB.child("accounts").child(accno).child("balance").setValue(update1);
+                                    alert("Transfer will be done in 7 working days");
+                                }
+                            }
+                            else
+                            {
+                                alert("Account balance is not sufficient");
+                            }
                         }
-                        else
-                            notSelect();
-                    }
-                    else
-                        notSelect();
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+
+                        }
+                    });
+
+                }
+                else
+                {
+                    alert("Amount greater than beneficiary preset limit");
                 }
             }
             else
             {
-                Toast.makeText(getActivity(),"Enter valid amount",Toast.LENGTH_LONG).show();
-                cancel(true);
+                Toast.makeText(getActivity(),"Select Benificiary first!!!",Toast.LENGTH_LONG).show();
             }
-
         }
-
-        @Override
-        protected String doInBackground(Void... params) {
-            try{
-                String response;
-                String transfer = "http://aa12112.16mb.com/main_modules/transfer.php";
-                URL url = new URL(transfer);
-                SharedPreferences settings = getActivity().getSharedPreferences(CRED, 0);
-                String data = URLEncoder.encode("userid", "UTF-8") + "=" + URLEncoder.encode(settings.getString("uid", null),"UTF-8")
-                                +"&"+ URLEncoder.encode("b_name", "UTF-8") + "=" + URLEncoder.encode(benificiary,"UTF-8")
-                                +"&"+ URLEncoder.encode("amt", "UTF-8") + "=" + URLEncoder.encode(amount,"UTF-8");
-                URLConnection conn = url.openConnection();
-                conn.setDoOutput(true);
-                OutputStreamWriter wr = new OutputStreamWriter(conn.getOutputStream());
-                wr.write(data);
-                wr.flush();
-                BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-                StringBuilder sb = new StringBuilder();
-                while ((response = reader.readLine()) != null) {
-                    sb.append(response);
-                }
-                return sb.toString();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(String s) {
-            Toast.makeText(getActivity(),s,Toast.LENGTH_LONG).show();
-        }
-
-        @Override
-        protected void onCancelled() {
-            super.onCancelled();
-        }
-
-        protected void notSelect()
+        else
         {
-            Toast.makeText(getActivity(),"Select benificiary first",Toast.LENGTH_LONG).show();
-            cancel(true);
+            Toast.makeText(getActivity(),"Enter valid amount",Toast.LENGTH_LONG).show();
         }
-
     }
+    void alert(String message)
+    {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(),Theme_AppCompat_Dialog);
+        builder.setMessage(message)
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                });
+        builder.show();
+    }
+
 }
+
 
 

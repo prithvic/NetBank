@@ -1,29 +1,33 @@
 package com.pc.kaizer.netbank;
 
-import android.content.Context;
 import android.content.SharedPreferences;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import org.json.JSONException;
-import org.json.JSONObject;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.net.URL;
-import java.net.URLConnection;
-import java.net.URLEncoder;
-import static com.pc.kaizer.netbank.LoginActivity.CRED;
+import android.widget.Toast;
+
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import java.util.HashMap;
+import java.util.Map;
+
 
 
 public class AccInfo extends Fragment {
 
-
+    private DatabaseReference mDatabase;
+    private TextView name;
+    private TextView balance;
+    private TextView accno;
+    private TextView lastlogin;
+    SharedPreferences settings;
+    Map<String,String> info =new HashMap<String,String>();
     public AccInfo() {
         // Required empty public constructor
     }
@@ -32,7 +36,8 @@ public class AccInfo extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+        settings = getActivity().getSharedPreferences("ACCDETAILS", 0);
     }
 
     @Override
@@ -44,6 +49,53 @@ public class AccInfo extends Fragment {
 
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+
+        populate_view();
+    }
+
+    public void populate_view()
+    {
+        name = (TextView) getActivity().findViewById(R.id.accinfo_name);
+        balance = (TextView) getActivity().findViewById(R.id.accinfo_Balance);
+        accno = (TextView) getActivity().findViewById(R.id.accinfo_accno);
+        lastlogin = (TextView) getActivity().findViewById(R.id.accinfo_label4);
+        String uid = settings.getString("uid","");
+        mDatabase.child("users").child(uid).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if(dataSnapshot!=null) {
+                    for (DataSnapshot dsp : dataSnapshot.getChildren()) {
+                        info.put(dsp.getKey(),dsp.getValue().toString());
+                    }
+                    SharedPreferences.Editor editor = settings.edit();
+                    editor.putString("acc_no",info.get("account_no"));
+                    editor.apply();
+                    accno.setText("Acc no: "+info.get("account_no"));
+                    name.setText("Name: "+info.get("name"));
+                    lastlogin.setText(info.get("last_login"));
+                    mDatabase.child("accounts").child(info.get("account_no")).child("balance").addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            if (dataSnapshot != null)
+                                balance.setText("Balance :" + dataSnapshot.getValue().toString());
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+
+                        }
+                    });
+                }
+                else
+                {
+                    Toast.makeText(getActivity(),"GG",Toast.LENGTH_LONG).show();
+                }
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
     }
 
 
