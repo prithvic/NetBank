@@ -16,81 +16,42 @@
         android:layout_height="match_parent"
         android:layout_above="@+id/checkben">
 
-        <RelativeLayout
+        <LinearLayout
+            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content">
 
-            <TextView
-                android:padding="5dp"
-                android:text="Payee/Beneficiary Nick Name"
+            <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentStart="true"
-                android:id="@+id/ablabel1"
-                android:textColor="@color/colorAccent" />
-
+                android:layout_height="wrap_content">
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textPersonName"
                 android:ems="10"
                 android:id="@+id/payeename"
-                android:hint="Payee Name"
-                android:layout_below="@+id/ablabel1"
+                android:hint="Payee/Beneficiary Nick Name"
                 android:layout_alignParentStart="true" />
+            </android.support.design.widget.TextInputLayout>
 
-            <TextView
-                android:padding="5dp"
-                android:text="Payee/Beneficiary Account No."
+
+            <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/ablabel2"
-                android:layout_below="@+id/payeename"
-                android:layout_alignParentStart="true"
-                android:textColor="@color/colorAccent" />
-
+                android:layout_height="wrap_content">
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="number"
                 android:ems="10"
                 android:id="@+id/payeeacc"
-                android:hint="Payee Account Number"
-                android:layout_below="@+id/ablabel2"
+                android:hint="Payee/Beneficiary Account No."
+                android:layout_below="@+id/payeename"
                 android:layout_alignParentStart="true" />
+            </android.support.design.widget.TextInputLayout>
 
-
-            <TextView
-                android:padding="5dp"
-                android:text="IFSC Code"
+            <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/ablabel4"
-                android:layout_below="@+id/payeeacc"
-                android:layout_centerHorizontal="true"
-                android:textColor="@color/colorAccent" />
-
-            <TextView
-                android:padding="5dp"
-                android:text="Set Transfer Limit"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/ablabel5"
-                android:layout_below="@+id/payeeifsc"
-                android:layout_alignParentStart="true"
-                android:textColor="@color/colorAccent" />
-
-            <EditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="number"
-                android:ems="10"
-                android:id="@+id/payeelimit"
-                android:hint="Limit"
-                android:layout_below="@+id/ablabel5"
-                android:layout_alignParentStart="true" />
-
+                android:layout_height="wrap_content">
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -98,9 +59,24 @@
                 android:ems="10"
                 android:id="@+id/payeeifsc"
                 android:hint="IFSC Code"
-                android:layout_below="@+id/ablabel4"
+                android:layout_below="@+id/payeeacc"
                 android:layout_alignParentStart="true" />
-        </RelativeLayout>
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="number"
+                android:ems="10"
+                android:id="@+id/payeelimit"
+                android:hint="Set Transaction Limit"
+                android:layout_below="@+id/payeeifsc"
+                android:layout_alignParentStart="true" />
+            </android.support.design.widget.TextInputLayout>
+        </LinearLayout>
     </ScrollView>
 
     <Button

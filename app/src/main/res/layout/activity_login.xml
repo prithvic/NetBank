@@ -33,67 +33,56 @@
         android:layout_alignParentStart="true" />
 
     <Button
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:id="@+id/button"
-    android:hint="Login"
-    android:textColorHint="@color/White"
-    android:backgroundTint="@color/Blue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/button"
+        android:hint="Login"
+        android:textColorHint="@color/White"
+        android:backgroundTint="@color/Blue"
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
         android:layout_toEndOf="@+id/Register" />
 
-    <RelativeLayout
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:id="@+id/loginform"
         android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true"
-        android:layout_above="@+id/Register">
+        android:layout_alignParentStart="true">
 
-
-        <TextView
-            android:padding="5dp"
-            android:text="User ID"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/uidlabel"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:id="@+id/loginform"
             android:layout_alignParentTop="true"
             android:layout_alignParentStart="true"
-            android:textColor="@color/colorAccent" />
+            android:layout_above="@+id/Register">
 
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/editText"
-            android:hint="@string/userid"
-            android:inputType="numberDecimal"
-            android:selectAllOnFocus="true"
-            android:layout_below="@+id/uidlabel"
-            android:layout_alignParentStart="true" />
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/editText"
+                android:hint="@string/userid"
+                android:inputType="numberDecimal"
+                android:selectAllOnFocus="true" />
+            </android.support.design.widget.TextInputLayout>
 
-        <TextView
-            android:padding="5dp"
-            android:text="Password"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/Password"
-            android:layout_below="@+id/editText"
-            android:layout_alignParentStart="true"
-            android:textColor="@color/colorAccent" />
-
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/editText1"
-            android:hint="@string/pass"
-            android:inputType="textPassword"
-            android:selectAllOnFocus="true"
-            android:imeOptions="actionDone"
-            android:password="true"
-            android:layout_below="@+id/Password"
-            android:layout_alignParentStart="true" />
-
-    </RelativeLayout>
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/editText1"
+                    android:hint="@string/pass"
+                    android:inputType="textPassword"
+                    android:selectAllOnFocus="true"
+                    android:imeOptions="actionDone"/>
+            </android.support.design.widget.TextInputLayout>
+        </LinearLayout>
+    </ScrollView>
 </RelativeLayout>

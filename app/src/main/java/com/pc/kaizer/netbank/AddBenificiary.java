@@ -81,6 +81,7 @@ public class AddBenificiary extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getActivity().setTitle("Add Beneficiary");
     }
 
     public void validate()

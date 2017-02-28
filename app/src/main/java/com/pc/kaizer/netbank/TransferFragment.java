@@ -79,6 +79,7 @@ public class TransferFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getActivity().setTitle("Transfer");
     }
 
     @Override

@@ -26,7 +26,8 @@
             android:label="NetBank Login" />
         <activity
             android:name=".RegisterActivity"
-            android:label="NetBank Register" />
+            android:label="NetBank Register"
+            android:windowSoftInputMode="stateAlwaysHidden"/>
         <activity
             android:name=".Home"
             android:label="@string/title_activity_home"

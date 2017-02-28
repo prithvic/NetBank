@@ -60,94 +60,111 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentStart="true"
         android:layout_above="@+id/checkBox">
-        <RelativeLayout
+
+        <LinearLayout
+            android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="First Name"
+                    android:id="@+id/fname"
+                    android:inputType="text"/>
+            </android.support.design.widget.TextInputLayout>
 
-            <EditText
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:hint="First Name"
-            android:id="@+id/fname"
-            android:inputType="text"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentStart="true"
-                android:layout_alignParentEnd="true" />
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/lname"
+                    android:hint="Last Name"
+                    android:inputType="text"
+                    android:layout_below="@+id/fname" />
+            </android.support.design.widget.TextInputLayout>
 
-            <EditText
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/lname"
-                android:hint="Last Name"
-                android:inputType="text"
-                android:layout_below="@+id/fname"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentEnd="true" />
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textEmailAddress"
+                    android:ems="10"
+                    android:id="@+id/newemail"
+                    android:hint="Email"
+                    android:layout_below="@+id/mobile" />
+            </android.support.design.widget.TextInputLayout>
 
-            <EditText
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:inputType="textEmailAddress"
-                android:ems="10"
-                android:id="@+id/newemail"
-                android:hint="Email"
-                android:layout_below="@+id/mobile"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentEnd="true" />
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="number"
+                    android:ems="10"
+                    android:id="@+id/Account"
+                    android:hint="Account No."
+                    android:layout_below="@+id/newemail"/>
+            </android.support.design.widget.TextInputLayout>
 
-            <EditText
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:inputType="number"
-                android:ems="10"
-                android:id="@+id/Account"
-                android:hint="Account No."
-                android:layout_below="@+id/newemail"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentEnd="true" />
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/mobile"
+                    android:hint="Mobile Number"
+                    android:inputType="numberDecimal"
+                    android:layout_below="@+id/lname"/>
+            </android.support.design.widget.TextInputLayout>
 
-            <EditText
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/mobile"
-            android:hint="Mobile Number"
-            android:inputType="numberDecimal"
-                android:layout_below="@+id/lname"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentEnd="true" />
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textPostalAddress"
+                    android:ems="10"
+                    android:id="@+id/Address"
+                    android:hint="Address"
+                    android:layout_below="@+id/Account"/>
+            </android.support.design.widget.TextInputLayout>
 
-            <EditText
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:inputType="textPostalAddress"
-                android:ems="10"
-                android:id="@+id/Address"
-                android:hint="Address"
-                android:layout_below="@+id/Account"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentEnd="true" />
-            <EditText
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:inputType="textPassword"
-            android:ems="10"
-            android:id="@+id/password"
-            android:hint="Password"
-            android:layout_below="@+id/Address"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentEnd="true" />
-            <EditText
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:inputType="textPassword"
-                android:ems="10"
-                android:id="@+id/confirmpass"
-                android:hint="Confirm Password"
-                android:layout_below="@+id/password"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentEnd="true" />
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textPassword"
+                    android:ems="10"
+                    android:id="@+id/password"
+                    android:hint="Password"
+                    android:layout_below="@+id/Address"/>
+            </android.support.design.widget.TextInputLayout>
 
-        </RelativeLayout>
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textPassword"
+                    android:ems="10"
+                    android:id="@+id/confirmpass"
+                    android:hint="Confirm Password"
+                    android:layout_below="@+id/password"/>
+            </android.support.design.widget.TextInputLayout>
+        </LinearLayout>
     </ScrollView>
 </RelativeLayout>
