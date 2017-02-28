@@ -14,6 +14,9 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -38,6 +41,11 @@ public class AccInfo extends Fragment {
         super.onCreate(savedInstanceState);
         mDatabase = FirebaseDatabase.getInstance().getReference();
         settings = getActivity().getSharedPreferences("ACCDETAILS", 0);
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy-hh:mm:ss");
+        String format = simpleDateFormat.format(new Date());
+        SharedPreferences.Editor editor = settings.edit();
+        editor.putString("logintime",format);
+        editor.apply();
         getActivity().setTitle("Account Info");
     }
 

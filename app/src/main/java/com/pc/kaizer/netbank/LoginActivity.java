@@ -176,14 +176,10 @@ public class LoginActivity extends AppCompatActivity {
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()) {
                     progress.dismiss();
-                    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy-hh:mm:ss");
-                    String format = simpleDateFormat.format(new Date());
                     SharedPreferences settings = getSharedPreferences(CRED, 0);
                     SharedPreferences.Editor editor = settings.edit();
                     editor.putString("uid",uid);
                     editor.apply();
-                    DatabaseReference DB = FirebaseDatabase.getInstance().getReference();
-                    DB.child("users").child(uid).child("last_login").setValue(format);
                     Toast.makeText(LoginActivity.this,"Login Successful",Toast.LENGTH_LONG).show();
                     Intent goToNextActivity = new Intent(getApplicationContext(), Home.class);
                     startActivity(goToNextActivity);

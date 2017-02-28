@@ -1,6 +1,7 @@
 package com.pc.kaizer.netbank;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.Snackbar;
@@ -15,6 +16,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class Home extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener  {
@@ -84,6 +87,9 @@ public class Home extends AppCompatActivity
             };
 
             if(counter%2 == 0){
+                SharedPreferences settings = getSharedPreferences("ACCDETAILS", 0);
+                DatabaseReference DB = FirebaseDatabase.getInstance().getReference();
+                DB.child("users").child(settings.getString("uid","")).child("last_login").setValue(settings.getString("logintime",""));
                 Intent intent = new Intent(this, LoginActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 FirebaseAuth.getInstance().signOut();
