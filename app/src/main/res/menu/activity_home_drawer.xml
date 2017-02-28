@@ -4,16 +4,22 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_accinfo"
-            android:icon="@drawable/ic_menu_accinfo"
+            android:icon="@drawable/ic_user"
             android:title="Account Info" />
         <item
             android:id="@+id/nav_bill"
+
+            android:icon="@drawable/ic_menu_bill"
             android:title="Bill Payment" />
         <item
             android:id="@+id/nav_fund"
+
+            android:icon="@drawable/ic_menu_transfer"
             android:title="Fund Transfer" />
         <item
             android:id="@+id/nav_stmt"
+
+            android:icon="@drawable/ic_menu_stmt"
             android:title="Statement" />
     </group>
 
