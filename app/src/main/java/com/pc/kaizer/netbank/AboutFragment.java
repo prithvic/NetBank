@@ -12,24 +12,24 @@ import android.view.ViewGroup;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class BillFragment extends Fragment {
+public class AboutFragment extends Fragment {
 
 
-    public BillFragment() {
+    public AboutFragment() {
         // Required empty public constructor
     }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getActivity().setTitle("Bill Payment");
+        getActivity().setTitle("About Us");
     }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_bill, container, false);
+        return inflater.inflate(R.layout.fragment_about, container, false);
     }
-
 }

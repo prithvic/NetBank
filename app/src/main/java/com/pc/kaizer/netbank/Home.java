@@ -14,6 +14,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.google.firebase.auth.FirebaseAuth;
+
 public class Home extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener  {
 
@@ -83,6 +85,8 @@ public class Home extends AppCompatActivity
 
             if(counter%2 == 0){
                 Intent intent = new Intent(this, LoginActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                FirebaseAuth.getInstance().signOut();
                 startActivity(intent);
             }
             else {
@@ -129,10 +133,13 @@ public class Home extends AppCompatActivity
 
         } else if (id == R.id.nav_fdr) {
 
-        } else if (id == R.id.nav_limit) {
-
         } else if (id == R.id.nav_pin) {
 
+        }else if (id == R.id.nav_about) {
+            AboutFragment fragment = new AboutFragment();
+            FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+            fragmentTransaction.replace(R.id.fragment_container, fragment);
+            fragmentTransaction.commit();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

@@ -38,6 +38,7 @@ public class AccInfo extends Fragment {
         super.onCreate(savedInstanceState);
         mDatabase = FirebaseDatabase.getInstance().getReference();
         settings = getActivity().getSharedPreferences("ACCDETAILS", 0);
+        getActivity().setTitle("Account Info");
     }
 
     @Override

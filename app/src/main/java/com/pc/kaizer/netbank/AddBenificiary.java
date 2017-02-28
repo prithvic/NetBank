@@ -64,7 +64,6 @@ public class AddBenificiary extends Fragment {
                 TransferFragment transferFragment = new TransferFragment();
                 FragmentTransaction transaction = getFragmentManager().beginTransaction();
                 transaction.replace(R.id.fragment_container, transferFragment);
-                transaction.addToBackStack(null);
                 transaction.commit();
             }
         });
@@ -81,6 +80,7 @@ public class AddBenificiary extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getActivity().setTitle("Add Beneficiary");
     }
 
     public void validate()

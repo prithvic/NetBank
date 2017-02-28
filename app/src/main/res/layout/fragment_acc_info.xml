@@ -1,115 +1,117 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:paddingTop="?android:attr/actionBarSize"
     tools:context="com.pc.kaizer.netbank.AccInfo">
 
-    <!-- TODO: Update blank fragment layout -->
-
-    <LinearLayout
-        android:paddingTop="?android:attr/actionBarSize"
-        android:orientation="vertical"
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <android.support.v7.widget.CardView
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            app:contentPadding="10dp">
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-            <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <TextView
-                android:text="Welcome!"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/accinfo_label1"
-                android:textSize="18sp"
-                android:textAlignment="center"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentStart="true" />
-
-            <ImageView
-                android:layout_width="match_parent"
-                app:srcCompat="@drawable/ic_user"
-                android:id="@+id/Avatar"
-                android:layout_height="180dp"
-                android:layout_below="@+id/accinfo_label1"
-                android:layout_alignParentStart="true" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/Avatar"
-                android:layout_alignParentStart="true"
-                android:id="@+id/accinfo_name"
-                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                android:textSize="24sp"
-                android:textAlignment="center"
-                android:paddingBottom="5dp"/>
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/accinfo_accno"
-                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                android:layout_below="@+id/accinfo_name"
-                android:layout_alignParentStart="true"
-                android:paddingBottom="5dp"
-                android:textSize="20sp"
-                android:textAlignment="center" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/accinfo_accno"
-                android:layout_alignParentStart="true"
-                android:id="@+id/accinfo_Balance"
-                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                android:textSize="30sp"
-                android:textAlignment="center"
-                android:paddingBottom="5dp"/>
-
-            </RelativeLayout>
-
-        </android.support.v7.widget.CardView>
-
-        <android.support.v7.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            app:contentPadding="10dp">
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-                <TextView
-                    android:text="Last Login"
+            <android.support.v7.widget.CardView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/accinfo_label3"
-                    android:textSize="18sp"
-                    android:textAlignment="center" />
+                    app:contentPadding="10dp"
+                    android:layout_marginTop="10dp">
 
-                <TextView
-                    android:text="Value Here"
+                    <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                        <TextView
+                            android:text="W E L C O M E !"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/accinfo_label1"
+                            android:textAlignment="center"
+                            android:fontFamily="sans-serif" />
+
+                        <ImageView
+                            android:layout_width="match_parent"
+                            app:srcCompat="@drawable/ic_user"
+                            android:id="@+id/Avatar"
+                            android:layout_height="180dp"
+                            android:layout_below="@+id/accinfo_label1"
+                            android:layout_alignParentStart="true"
+                            android:contentDescription="User"/>
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/Avatar"
+                            android:layout_alignParentStart="true"
+                            android:id="@+id/accinfo_name"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                            android:textSize="22sp"
+                            android:textAlignment="center"
+                            android:paddingBottom="5dp"/>
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/accinfo_accno"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                            android:layout_below="@+id/accinfo_name"
+                            android:layout_alignParentStart="true"
+                            android:paddingBottom="5dp"
+                            android:textSize="18sp"
+                            android:textAlignment="center" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/accinfo_accno"
+                            android:layout_alignParentStart="true"
+                            android:id="@+id/accinfo_Balance"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                            android:textSize="28sp"
+                            android:textAlignment="center"
+                            android:paddingBottom="5dp"/>
+                    </RelativeLayout>
+                </android.support.v7.widget.CardView>
+
+                <android.support.v7.widget.CardView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/accinfo_label4"
-                    android:layout_below="@+id/accinfo_label3"
-                    android:layout_alignParentStart="true"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                    android:textAlignment="center"
-                    android:textSize="24sp" />
+                    android:layout_marginTop="10dp"
+                    app:contentPadding="10dp">
 
-            </RelativeLayout>
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
 
-        </android.support.v7.widget.CardView>
-    </LinearLayout>
+                        <TextView
+                            android:text="L A S T  L O G I N"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/accinfo_label3"
+                            android:textSize="14sp"
+                            android:paddingBottom="5dp"
+                            android:textAlignment="center" />
 
-</FrameLayout>
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/accinfo_label4"
+                            android:layout_below="@+id/accinfo_label3"
+                            android:layout_alignParentStart="true"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                            android:textAlignment="center"
+                            android:textSize="22sp" />
+
+                    </RelativeLayout>
+                </android.support.v7.widget.CardView>
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="20dp" />
+        </LinearLayout>
+    </ScrollView>
+</RelativeLayout>
