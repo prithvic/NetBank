@@ -64,7 +64,6 @@ public class AddBenificiary extends Fragment {
                 TransferFragment transferFragment = new TransferFragment();
                 FragmentTransaction transaction = getFragmentManager().beginTransaction();
                 transaction.replace(R.id.fragment_container, transferFragment);
-                transaction.addToBackStack(null);
                 transaction.commit();
             }
         });

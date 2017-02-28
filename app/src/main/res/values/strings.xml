@@ -1,5 +1,6 @@
 <resources>
-    <string name="app_name">NetBankFire</string>
+    <string name="app_name">Net Bank</string>
+    <string name="app_version">Alpha 0.4</string>
     <string name="email">Email</string>
     <string name="userid">User ID</string>
     <string name="pass">Password</string>
@@ -40,6 +41,12 @@
 
     <string name="action_settings">Logout</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <!-- About Fragment Strings -->
+    <string name="devs">D e v e l o p e r s</string>
+    <string name="Prithvi">Prithvi Chavhan</string>
+    <string name="Rohan">Rohan Dhamapurkar</string>
+    <string name="professor">P r o f e s s o r</string>
+    <string name="naveen">Naveen Vaswani</string>
+    <string name="institute">I n s t i t u t e</string>
+    <string name="watumull">Watumull Institute</string>
 </resources>

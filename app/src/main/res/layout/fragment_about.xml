@@ -1,0 +1,181 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingTop="?android:attr/actionBarSize"
+    tools:context="com.pc.kaizer.netbank.AboutFragment"
+    android:weightSum="1">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:contentPadding="5dp"
+                android:layout_marginTop="10dp">
+
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:srcCompat="@mipmap/ic_launcher"
+                        android:id="@+id/imageView3" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/app_title"
+                        android:text="@string/app_name"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Headline"
+                        android:fontFamily="sans-serif"
+                        android:textAlignment="center"
+                        android:textAllCaps="true"
+                        android:padding="5dp"/>
+
+                    <TextView
+                        android:text="@string/app_version"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/AppVersion"
+                        android:fontFamily="serif-monospace"
+                        android:textAlignment="center"
+                        android:padding="5dp"
+                        android:textSize="16sp" />
+                </LinearLayout>
+            </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:contentPadding="5dp"
+                android:layout_marginTop="10dp">
+
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/devs"
+                        android:textAlignment="center"
+                        android:textAllCaps="true"
+                        android:fontFamily="sans-serif"
+                        android:id="@+id/devlabel"
+                        android:padding="5dp"
+                        android:textColor="@color/colorAccent" />
+
+                    <TextView
+                        android:text="@string/Prithvi"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/dev1"
+                        android:textAppearance="@style/TextAppearance.AppCompat"
+                        android:textAlignment="center"
+                        android:textSize="18sp"
+                        android:padding="5dp"
+                        android:textAllCaps="true" />
+
+                    <TextView
+                        android:text="@string/Rohan"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/dev2"
+                        android:textAppearance="@style/TextAppearance.AppCompat"
+                        android:textAlignment="center"
+                        android:textSize="18sp"
+                        android:padding="5dp"
+                        android:textAllCaps="true" />
+                </LinearLayout>
+            </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:contentPadding="5dp"
+                android:layout_marginTop="10dp">
+
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        android:text="@string/professor"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/professorlabel"
+                        android:textColor="@color/colorAccent"
+                        android:textAllCaps="true"
+                        android:textAlignment="center"
+                        android:padding="5dp"/>
+
+                    <TextView
+                        android:text="@string/naveen"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/professor_name"
+                        android:textAppearance="@style/TextAppearance.AppCompat"
+                        android:textAllCaps="true"
+                        android:textAlignment="center"
+                        android:textSize="18sp"
+                        android:padding="5dp"/>
+                </LinearLayout>
+            </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:contentPadding="5dp"
+                android:layout_marginTop="10dp">
+
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        android:text="@string/institute"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/instname"
+                        android:textAllCaps="true"
+                        android:textAlignment="center"
+                        android:textColor="@color/colorAccent"
+                        android:padding="5dp"/>
+
+                    <TextView
+                        android:text="@string/watumull"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/watumul"
+                        android:textAppearance="@style/TextAppearance.AppCompat"
+                        android:textSize="18sp"
+                        android:textAlignment="center"
+                        android:textAllCaps="true"
+                        android:padding="5dp"/>
+                </LinearLayout>
+            </android.support.v7.widget.CardView>
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="10dp" />
+
+        </LinearLayout>
+    </ScrollView>
+</RelativeLayout>

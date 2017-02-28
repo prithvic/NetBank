@@ -133,10 +133,13 @@ public class Home extends AppCompatActivity
 
         } else if (id == R.id.nav_fdr) {
 
-        } else if (id == R.id.nav_limit) {
-
         } else if (id == R.id.nav_pin) {
 
+        }else if (id == R.id.nav_about) {
+            AboutFragment fragment = new AboutFragment();
+            FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+            fragmentTransaction.replace(R.id.fragment_container, fragment);
+            fragmentTransaction.commit();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

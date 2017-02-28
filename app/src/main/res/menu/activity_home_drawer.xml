@@ -34,18 +34,11 @@
             <item
                 android:title="FDR"
                 android:id="@+id/nav_fdr" />
-        </menu>
-    </item>
-
-    <item android:title="Misc">
-        <menu>
-
-            <item
-                android:title="Set Limits"
-                android:id="@+id/nav_limit" />
             <item
                 android:title="Change Pin"
                 android:id="@+id/nav_pin" />
+            <item android:title="About"
+                android:id="@+id/nav_about" />
         </menu>
     </item>
 
