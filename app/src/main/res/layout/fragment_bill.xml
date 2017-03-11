@@ -2,16 +2,91 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingTop="16dp"
+    android:paddingTop="?android:attr/actionBarSize"
     tools:context="com.pc.kaizer.netbank.BillFragment">
 
     <!-- TODO: Update blank fragment layout -->
 
     <TextView
-        android:text="BILL FRAGMENT"
+        android:id="@+id/billtype"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:text="@string/bill_type"
+        android:textAlignment="center"
+        android:textAllCaps="true"
+        android:textColor="@color/colorAccent"
+        android:paddingTop="10dp"/>
+
+    <RadioGroup
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/plcholderbill"
-        android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true" />
+        android:id="@+id/radioGroup"
+        android:layout_below="@+id/billtype"
+        android:layout_centerHorizontal="true">
+
+        <RadioButton
+            android:id="@+id/electricity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/billtype"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="40dp"
+            android:layout_weight="1"
+            android:padding="5dp"
+            android:text="Telephone" />
+
+        <RadioButton
+            android:id="@+id/telephone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignEnd="@+id/electricity"
+            android:layout_alignStart="@+id/electricity"
+            android:layout_below="@+id/electricity"
+            android:layout_weight="1"
+            android:padding="5dp"
+            android:text="Electricity" />
+
+        <RadioButton
+            android:id="@+id/water"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignEnd="@+id/telephone"
+            android:layout_alignStart="@+id/telephone"
+            android:layout_below="@+id/telephone"
+            android:layout_weight="1"
+            android:padding="5dp"
+            android:text="Water" />
+    </RadioGroup>
+
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/textInputLayout"
+        android:layout_below="@+id/radioGroup"
+        android:layout_alignParentStart="true">
+
+        <EditText
+            android:id="@+id/editText2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/water"
+            android:layout_marginTop="23dp"
+            android:layout_weight="1"
+            android:hint="Bill Amount"
+            android:inputType="numberDecimal" />
+    </android.support.design.widget.TextInputLayout>
+
+    <Button
+        android:id="@+id/paybill"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"
+        android:layout_margin="10dp"
+        android:backgroundTint="@color/colorAccent"
+        android:text="Pay Bill"
+        android:textColor="@color/White" />
 </RelativeLayout>

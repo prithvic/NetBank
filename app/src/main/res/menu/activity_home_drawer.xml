@@ -35,8 +35,8 @@
                 android:title="FDR"
                 android:id="@+id/nav_fdr" />
             <item
-                android:title="Change Pin"
-                android:id="@+id/nav_pin" />
+                android:id="@+id/nav_pass"
+                android:title="Change Password" />
             <item android:title="About"
                 android:id="@+id/nav_about" />
         </menu>

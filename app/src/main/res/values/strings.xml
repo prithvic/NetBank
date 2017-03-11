@@ -45,8 +45,12 @@
     <string name="devs">D e v e l o p e r s</string>
     <string name="Prithvi">Prithvi Chavhan</string>
     <string name="Rohan">Rohan Dhamapurkar</string>
-    <string name="professor">P r o f e s s o r</string>
-    <string name="naveen">Naveen Vaswani</string>
     <string name="institute">I n s t i t u t e</string>
     <string name="watumull">Watumull Institute</string>
+
+    <!-- Bill Fragment Strings -->
+    <string name="bill_type">"S e l e c t   B i l l   T y p e"</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

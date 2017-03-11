@@ -26,12 +26,13 @@
                     android:layout_height="match_parent">
 
                         <TextView
-                            android:text="W E L C O M E !"
+                            android:id="@+id/accinfo_label1"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:id="@+id/accinfo_label1"
+                            android:fontFamily="sans-serif"
+                            android:text="W E L C O M E !"
                             android:textAlignment="center"
-                            android:fontFamily="sans-serif" />
+                            android:textColor="@color/colorAccent" />
 
                         <ImageView
                             android:layout_width="match_parent"
@@ -88,13 +89,14 @@
                         android:layout_height="match_parent">
 
                         <TextView
-                            android:text="L A S T  L O G I N"
+                            android:id="@+id/accinfo_label3"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:id="@+id/accinfo_label3"
-                            android:textSize="14sp"
                             android:paddingBottom="5dp"
-                            android:textAlignment="center" />
+                            android:text="L A S T  L O G I N"
+                            android:textAlignment="center"
+                            android:textColor="@color/colorAccent"
+                            android:textSize="14sp" />
 
                         <TextView
                             android:layout_width="match_parent"

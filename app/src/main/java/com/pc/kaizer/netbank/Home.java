@@ -115,6 +115,7 @@ public class Home extends AppCompatActivity
             FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
             fragmentTransaction.replace(R.id.fragment_container, fragment);
             fragmentTransaction.commit();
+
         } else if (id == R.id.nav_bill) {
             BillFragment fragment = new BillFragment();
             FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
@@ -134,12 +135,28 @@ public class Home extends AppCompatActivity
             fragmentTransaction.commit();
 
         } else if (id == R.id.nav_dd) {
+            DDFragment fragment = new DDFragment();
+            FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+            fragmentTransaction.replace(R.id.fragment_container, fragment);
+            fragmentTransaction.commit();
 
         } else if (id == R.id.nav_cb) {
+            IssueChequebookFragment fragment = new IssueChequebookFragment();
+            FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+            fragmentTransaction.replace(R.id.fragment_container, fragment);
+            fragmentTransaction.commit();
 
         } else if (id == R.id.nav_fdr) {
+            FDRFragment fragment = new FDRFragment();
+            FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+            fragmentTransaction.replace(R.id.fragment_container, fragment);
+            fragmentTransaction.commit();
 
-        } else if (id == R.id.nav_pin) {
+        } else if (id == R.id.nav_pass) {
+            PasswordFragment fragment = new PasswordFragment();
+            FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+            fragmentTransaction.replace(R.id.fragment_container, fragment);
+            fragmentTransaction.commit();
 
         }else if (id == R.id.nav_about) {
             AboutFragment fragment = new AboutFragment();
