@@ -134,6 +134,7 @@ public class LoginActivity extends AppCompatActivity {
                         }
                         else
                         {
+                            progress.dismiss();
                             Toast.makeText(LoginActivity.this,"No such user",Toast.LENGTH_LONG).show();
                         }
                     }

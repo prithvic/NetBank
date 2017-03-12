@@ -78,6 +78,8 @@ public class AccInfo extends Fragment {
                     }
                     SharedPreferences.Editor editor = settings.edit();
                     editor.putString("acc_no",info.get("account_no"));
+                    editor.putString("mobile",info.get("mobile"));
+                    editor.putString("email",info.get("email"));
                     editor.apply();
                     accno.setText("Acc no: "+info.get("account_no"));
                     name.setText("Name: "+info.get("name"));

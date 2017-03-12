@@ -95,7 +95,7 @@
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:backgroundTint="@color/colorAccent"
-        android:text="REQUEST DD"
+        android:text="SUBMIT REQUEST"
         android:textColor="@color/White" />
 
 </RelativeLayout>
