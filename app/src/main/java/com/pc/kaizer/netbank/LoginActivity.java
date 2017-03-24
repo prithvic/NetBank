@@ -18,6 +18,7 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -38,6 +39,7 @@ public class LoginActivity extends AppCompatActivity {
     public static final String CRED = "ACCDETAILS";
     private EditText mUseridView;
     private EditText mPassView;
+    private TextView mForgotPass;
     private FirebaseAuth mFirebaseAuth;
     private DatabaseReference mDatabase;
     private ProgressDialog progress;
@@ -51,7 +53,13 @@ public class LoginActivity extends AppCompatActivity {
         mDatabase = FirebaseDatabase.getInstance().getReference();
         mUseridView = (EditText) findViewById(R.id.editText);
         mPassView = (EditText) findViewById(R.id.editText1);
-
+        mForgotPass = (TextView) findViewById(R.id.forgotpass);
+        mForgotPass.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                forgotpass();
+            }
+        });
         Button LoginButton = (Button) findViewById(R.id.button);
         LoginButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -192,5 +200,46 @@ public class LoginActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    public void forgotpass()
+    {
+        String uid = mUseridView.getText().toString();
+        if(TextUtils.isEmpty(uid))
+        {
+            Toast.makeText(LoginActivity.this,"Enter UserId for forgot password",Toast.LENGTH_LONG).show();
+        }
+        else
+        {
+            mDatabase.child("users").child(uid).child("email").addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    if (dataSnapshot.getValue() != null) {
+                        String email = dataSnapshot.getValue().toString();
+                        mFirebaseAuth.sendPasswordResetEmail(email).addOnCompleteListener(new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task) {
+                                if(task.isSuccessful())
+                                {
+                                    Toast.makeText(LoginActivity.this,"Password recovery email sent",Toast.LENGTH_LONG).show();
+
+                                }
+                                else
+                                {
+                                    Toast.makeText(LoginActivity.this,"Password recovery failed",Toast.LENGTH_LONG).show();
+                                }
+                            }
+                        });
+                    } else {
+
+                        Toast.makeText(LoginActivity.this, "No such user", Toast.LENGTH_LONG).show();
+                    }
+                }
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+                    Toast.makeText(LoginActivity.this,"Database error",Toast.LENGTH_LONG).show();
+                }
+                });
+        }
     }
 }

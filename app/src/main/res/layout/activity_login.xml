@@ -83,6 +83,16 @@
                     android:selectAllOnFocus="true"
                     android:imeOptions="actionDone"/>
             </android.support.design.widget.TextInputLayout>
+            <TextView
+                android:id="@+id/forgotpass"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="Forgot Password"
+                android:layout_marginTop="15dp"
+                android:layout_gravity="center"
+                android:padding="7dp"
+                android:clickable="true"
+                />
         </LinearLayout>
     </ScrollView>
 </RelativeLayout>

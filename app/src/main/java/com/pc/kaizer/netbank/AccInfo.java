@@ -80,6 +80,7 @@ public class AccInfo extends Fragment {
                     editor.putString("acc_no",info.get("account_no"));
                     editor.putString("mobile",info.get("mobile"));
                     editor.putString("email",info.get("email"));
+                    editor.putString("address",info.get("address"));
                     editor.apply();
                     accno.setText("Acc no: "+info.get("account_no"));
                     name.setText("Name: "+info.get("name"));
