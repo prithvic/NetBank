@@ -56,6 +56,7 @@ public class DDFragment extends Fragment {
         mPayee = (EditText) v.findViewById(R.id.payeename);
         mDD = (EditText) v.findViewById(R.id.ddamt);
         mAdd = (TextView) v.findViewById(R.id.addrcontent);
+        mAdd.setText(settings.getString("address",""));
         mReq = (Button) v.findViewById(R.id.requestdd);
         mReq.setOnClickListener(new View.OnClickListener() {
             @Override
