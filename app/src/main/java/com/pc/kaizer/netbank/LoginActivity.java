@@ -4,16 +4,16 @@ created by admin-786
 
 package com.pc.kaizer.netbank;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.Context;
 import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
@@ -29,9 +29,6 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.regex.Pattern;
 
 
@@ -207,7 +204,7 @@ public class LoginActivity extends AppCompatActivity {
         String uid = mUseridView.getText().toString();
         if(TextUtils.isEmpty(uid))
         {
-            Toast.makeText(LoginActivity.this,"Enter UserId for forgot password",Toast.LENGTH_LONG).show();
+            Toast.makeText(LoginActivity.this,"Enter User ID to retrieve password",Toast.LENGTH_LONG).show();
         }
         else
         {

@@ -5,6 +5,8 @@
     <color name="colorAccent">#448aff</color>
     <color name="Blue">#4066ff</color>
     <color name="White">#ffffff</color>
+    <color name="white_pressed">#f1f1f1</color>
+    <color name="black_semi_transparent">#B2000000</color>
     <!-- Screens background color-->
     <color name="bg_screen1">#FF4066ff</color>
     <color name="bg_screen2">#FF4066ff</color>

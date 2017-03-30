@@ -33,7 +33,7 @@ public class WelcomeActivity extends AppCompatActivity {
         // Checking for first time launch - before calling setContentView()
         prefManager = new Prefmanager(this);
         if (!prefManager.isFirstTimeLaunch()) {
-            launchHomeScreen();
+            startActivity(new Intent(WelcomeActivity.this, SplashActivity.class));
             finish();
         }
 
@@ -149,9 +149,7 @@ public class WelcomeActivity extends AppCompatActivity {
         }
     };
 
-    /**
-     * Making notification bar transparent
-     */
+    //Making status bar transparent
     private void changeStatusBarColor() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Window window = getWindow();
@@ -160,9 +158,7 @@ public class WelcomeActivity extends AppCompatActivity {
         }
     }
 
-    /**
-     * View pager adapter
-     */
+    //View pager adapter
     public class MyViewPagerAdapter extends PagerAdapter {
         private LayoutInflater layoutInflater;
 

@@ -35,7 +35,6 @@ public class AddBenificiary extends Fragment {
     private String accno;
     private DatabaseReference mDatabase;
 
-
     public AddBenificiary() {
         // Required empty public constructor
     }
@@ -193,7 +192,6 @@ public class AddBenificiary extends Fragment {
         transaction.addToBackStack(null);
         transaction.commit();
     }
-
 }
 
 

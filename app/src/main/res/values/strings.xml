@@ -1,9 +1,6 @@
 <resources>
     <string name="app_name">Net Bank</string>
-    <string name="app_version">Alpha 0.4</string>
     <string name="email">Email</string>
-    <string name="userid">User ID</string>
-    <string name="pass">Password</string>
     <string name="reg">Create Account</string>
     <string name="invalid">Wrong userid or password.</string>
     <string name="recog">Cannot recognize the userid</string>
@@ -19,27 +16,30 @@
     <string name="skip">SKIP</string>
     <string name="start">LOGIN</string>
     <string name="adderr">Address is invalid</string>
+    <string name="action_settings">Logout</string>
 
+    <!--App Intro Strings-->
     <string name="slide_1_title">Welcome!</string>
     <string name="slide_1_desc">The easiest way to operate your bank account from your smartphone!</string>
-
     <string name="slide_2_title">Statements</string>
     <string name="slide_2_desc">Request your account statement and check balance on the go!</string>
-
     <string name="slide_3_title">Fund Transfer</string>
     <string name="slide_3_desc">Transfer funds quick and easy way!</string>
-
     <string name="slide_4_title">FDR</string>
     <string name="slide_4_desc">Also create FDR easily in just a few taps!</string>
-
     <string name="play_again_desc">To see the welcome slider again, goto Settings -> apps -> welcome slider -> clear data</string>
     <string name="play_again">Play Again</string>
     <string name="title_activity_home">Home</string>
-
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
-    <string name="action_settings">Logout</string>
+    <!--Login Register Strings-->
+    <string name="login">Login</string>
+    <string name="register">Register</string>
+    <string name="userid">User ID</string>
+    <string name="pass">Password</string>
+    <string name="fpass">Forgot Password</string>
+    <string name="tnc">I agree with all the terms and conditions.</string>
 
     <!-- About Fragment Strings -->
     <string name="devs">D e v e l o p e r s</string>
@@ -50,6 +50,11 @@
 
     <!-- Bill Fragment Strings -->
     <string name="bill_type">"S e l e c t   B i l l   T y p e"</string>
+    <string name="bill_amt">Enter Bill Amount</string>
+    <string name="pay_bill">Pay Bill</string>
+    <string name="electricity">Electricity</string>
+    <string name="telephone">Telephone</string>
+    <string name="water">Water</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

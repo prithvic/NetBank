@@ -22,7 +22,7 @@
         android:visibility="gone" />
 
     <CheckBox
-        android:text="I agree with the terms and conditions."
+        android:text="@string/tnc"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/checkBox"
@@ -34,7 +34,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColorHint="@color/White"
-        android:hint="Login"
+        android:hint="@string/login"
         android:backgroundTint="@color/Blue"
         android:layout_alignParentBottom="true"
         android:layout_alignParentStart="true"
@@ -43,7 +43,7 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:hint="Register"
+        android:hint="@string/register"
         android:id="@+id/reg_button"
         android:textColorHint="@color/White"
         android:backgroundTint="@color/Blue"
@@ -53,6 +53,7 @@
         android:layout_toEndOf="@+id/login" />
 
     <ScrollView
+        android:scrollbars="none"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/reg_form"
@@ -62,108 +63,118 @@
         android:layout_above="@+id/checkBox">
 
         <LinearLayout
-            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:orientation="vertical">
 
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
+
                 <EditText
+                    android:id="@+id/fname"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="First Name"
-                    android:id="@+id/fname"
-                    android:inputType="text"/>
+                    android:inputType="text" />
             </android.support.design.widget.TextInputLayout>
 
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
+
                 <EditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
                     android:id="@+id/lname"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/fname"
                     android:hint="Last Name"
-                    android:inputType="text"
-                    android:layout_below="@+id/fname" />
+                    android:inputType="text" />
             </android.support.design.widget.TextInputLayout>
 
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
+
                 <EditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="textEmailAddress"
-                    android:ems="10"
                     android:id="@+id/newemail"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/mobile"
+                    android:ems="10"
                     android:hint="Email"
-                    android:layout_below="@+id/mobile" />
+                    android:inputType="textEmailAddress" />
             </android.support.design.widget.TextInputLayout>
 
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
+
                 <EditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="number"
-                    android:ems="10"
                     android:id="@+id/Account"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/newemail"
+                    android:ems="10"
                     android:hint="Account No."
-                    android:layout_below="@+id/newemail"/>
+                    android:inputType="number" />
             </android.support.design.widget.TextInputLayout>
 
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
+
                 <EditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
                     android:id="@+id/mobile"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/lname"
                     android:hint="Mobile Number"
-                    android:inputType="numberDecimal"
-                    android:layout_below="@+id/lname"/>
+                    android:inputType="numberDecimal" />
             </android.support.design.widget.TextInputLayout>
 
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
+
                 <EditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="textPostalAddress"
-                    android:ems="10"
                     android:id="@+id/Address"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/Account"
+                    android:ems="10"
                     android:hint="Address"
-                    android:layout_below="@+id/Account"/>
+                    android:inputType="textPostalAddress" />
             </android.support.design.widget.TextInputLayout>
 
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
+
                 <EditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="textPassword"
-                    android:ems="10"
                     android:id="@+id/password"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/Address"
+                    android:ems="10"
                     android:hint="Password"
-                    android:layout_below="@+id/Address"/>
+                    android:inputType="textPassword" />
             </android.support.design.widget.TextInputLayout>
 
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
+
                 <EditText
+                    android:id="@+id/confirmpass"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="textPassword"
+                    android:layout_below="@+id/password"
                     android:ems="10"
-                    android:id="@+id/confirmpass"
                     android:hint="Confirm Password"
-                    android:layout_below="@+id/password"/>
+                    android:inputType="textPassword" />
             </android.support.design.widget.TextInputLayout>
         </LinearLayout>
     </ScrollView>

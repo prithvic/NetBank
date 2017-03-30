@@ -4,7 +4,6 @@ import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AlertDialog;
@@ -18,6 +17,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
+import com.github.clans.fab.FloatingActionButton;
+import com.github.clans.fab.FloatingActionMenu;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -41,6 +42,9 @@ public class TransferFragment extends Fragment {
     private ArrayList<String> type = new ArrayList<String>();
     private ArrayList<String> baccno = new ArrayList<String>();
     private String balance;
+    FloatingActionMenu fam;
+    FloatingActionButton fab1, fab2;
+
     public TransferFragment() {
         // Required empty public constructor
     }
@@ -54,9 +58,12 @@ public class TransferFragment extends Fragment {
         trns = (Button) v.findViewById(R.id.transfer);
         amt = (EditText) v.findViewById(R.id.trnsamt);
         list = (Spinner) v.findViewById(R.id.benlist);
-        //
-        FloatingActionButton fab = (FloatingActionButton) v.findViewById(R.id.addben);
-        fab.setOnClickListener(new View.OnClickListener() {
+        fam = (FloatingActionMenu) v.findViewById(R.id.ben);
+        fam.setIconAnimated(false);
+        fab1 = (FloatingActionButton) v.findViewById(R.id.addben);
+        fab2 = (FloatingActionButton) v.findViewById(R.id.remben);
+
+        fab1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 AddBenificiary addBenificiary = new AddBenificiary();
@@ -65,6 +72,13 @@ public class TransferFragment extends Fragment {
                 transaction.addToBackStack(null);
                 transaction.commit();
 
+            }
+        });
+
+        fab2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //Remove Beneficiary code.
             }
         });
         trns.setOnClickListener(new View.OnClickListener() {

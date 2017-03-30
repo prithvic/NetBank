@@ -31,10 +31,10 @@ public class AccInfo extends Fragment {
     private TextView lastlogin;
     SharedPreferences settings;
     Map<String,String> info =new HashMap<String,String>();
+
     public AccInfo() {
         // Required empty public constructor
     }
-
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -105,7 +105,6 @@ public class AccInfo extends Fragment {
             }
             @Override
             public void onCancelled(DatabaseError databaseError) {
-
             }
         });
     }
