@@ -12,6 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="D E L I V E R Y  A D D R E S S"
+        android:layout_marginBottom="10dp"
         android:textAlignment="center"
         android:textAllCaps="true"
         android:textColor="@color/colorAccent"
@@ -22,11 +23,14 @@
         android:id="@+id/addrcontent"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/addr"
+        android:layout_marginBottom="10dp"
         android:padding="5dp"
         android:text="ADDRESS CONTENT HERE"
         android:textAlignment="center"
-        android:layout_below="@+id/addr"
-        android:layout_alignParentStart="true" />
+        android:textSize="18sp"
+        android:typeface="monospace" />
 
     <TextView
         android:id="@+id/chkbkno"
@@ -35,6 +39,7 @@
         android:layout_alignParentStart="true"
         android:layout_below="@+id/addrcontent"
         android:text="C H E Q U E B O O K  N O ."
+        android:layout_marginBottom="10dp"
         android:textAlignment="center"
         android:textColor="@color/colorAccent" />
 
@@ -42,11 +47,13 @@
         android:id="@+id/chqno"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="5dp"
         android:layout_alignParentStart="true"
         android:layout_below="@+id/chkbkno"
+        android:layout_marginBottom="10dp"
+        android:padding="5dp"
         android:text="Not Issued Yet"
-        android:textAlignment="center" />
+        android:textAlignment="center"
+        android:textSize="18sp" />
 
     <Button
         android:id="@+id/requestchqbk"

@@ -45,21 +45,21 @@ public class IssueChequebookFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View v =  inflater.inflate(R.layout.fragment_fdr, container, false);
+        View v =  inflater.inflate(R.layout.fragment_issue_chequebook, container, false);
         mAddress = (TextView) v.findViewById(R.id.addrcontent);
         mAddress.setText(settings.getString("address",""));
         mReqno =(TextView) v.findViewById(R.id.chqno);
         db.child("requests").child("chequebook").child(settings.getString("uid","")).child("reqno").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                if(dataSnapshot != null)
+                /*if(dataSnapshot != null)
                 {
                     mReqno.setText(dataSnapshot.getValue().toString());
                 }
                 else
                 {
                     mReqno.setText("NULL");
-                }
+                }*/
             }
 
             @Override

@@ -9,6 +9,7 @@
     tools:context="com.pc.kaizer.netbank.AddBenificiary">
 
     <ScrollView
+        android:scrollbars="none"
         android:id="@+id/bene"
         android:paddingTop="?android:attr/actionBarSize"
         android:layout_width="match_parent"
