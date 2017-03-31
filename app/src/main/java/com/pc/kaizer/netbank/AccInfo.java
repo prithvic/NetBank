@@ -101,7 +101,7 @@ public class AccInfo extends Fragment {
                 }
                 else
                 {
-                    Toast.makeText(getActivity(),"GG",Toast.LENGTH_LONG).show();
+                    Toast.makeText(getActivity(),"Something Went Wrong",Toast.LENGTH_LONG).show();
                 }
             }
             @Override

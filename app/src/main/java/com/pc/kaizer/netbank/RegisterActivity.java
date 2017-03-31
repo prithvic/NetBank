@@ -276,6 +276,7 @@ public class RegisterActivity extends AppCompatActivity {
                                 DB.child("users").child(uid).child("address").setValue(addr);
                                 DB.child("users").child(uid).child("mobile").setValue(mob);
                                 DB.child("users").child(uid).child("last_login").setValue(format);
+                                DB.child("requests").child("chequebook").child(uid).child("reqno").setValue("Not Yet Issued");
                                 SendMail snd;
                                 snd = new SendMail(email,"Login Credentials",init,getApplicationContext());
                                 snd.execute((Void)null);
