@@ -3,11 +3,10 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.res.Resources;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Patterns;
 import android.view.LayoutInflater;
@@ -26,14 +25,13 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Random;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static com.pc.kaizer.netbank.R.style.Theme_AppCompat_Dialog;
+import static com.pc.kaizer.netbank.R.style.MyDialogTheme;
 
 
 public class RegisterActivity extends AppCompatActivity {
@@ -306,8 +304,8 @@ public class RegisterActivity extends AppCompatActivity {
 
     void alert(String id)
     {
-        AlertDialog.Builder builder = new AlertDialog.Builder(RegisterActivity.this,Theme_AppCompat_Dialog);
-        builder.setMessage("Your userid is "+id)
+        AlertDialog.Builder builder = new AlertDialog.Builder(RegisterActivity.this,MyDialogTheme);
+        builder.setMessage("Your User ID is: "+id)
                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
