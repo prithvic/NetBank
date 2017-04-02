@@ -17,6 +17,7 @@
     <string name="start">LOGIN</string>
     <string name="adderr">Address is invalid</string>
     <string name="action_settings">Logout</string>
+    <string name="secure">"🔒 Secure"</string>
 
     <!--App Intro Strings-->
     <string name="slide_1_title">Welcome!</string>
@@ -42,6 +43,7 @@
     <string name="tnc">I agree with all the terms and conditions.</string>
 
     <!-- About Fragment Strings -->
+    <string name="mail">info@netbank.in</string>
     <string name="devs">D e v e l o p e r s</string>
     <string name="Prithvi">Prithvi Chavhan</string>
     <string name="Rohan">Rohan Dhamapurkar</string>
@@ -56,6 +58,4 @@
     <string name="telephone">Telephone</string>
     <string name="water">Water</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
