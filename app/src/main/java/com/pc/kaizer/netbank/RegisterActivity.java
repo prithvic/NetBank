@@ -277,10 +277,10 @@ public class RegisterActivity extends AppCompatActivity {
                                 DB.child("users").child(uid).child("mobile").setValue(mob);
                                 DB.child("users").child(uid).child("last_login").setValue(format);
                                 DB.child("requests").child("chequebook").child(uid).child("reqno").setValue("Not Yet Issued");
-                                SendMail snd;
-                                snd = new SendMail(email,"Login Credentials",init,getApplicationContext());
-                                snd.execute((Void)null);
-                                alert();
+                                //SendMail snd;
+                                //snd = new SendMail(email,"Login Credentials",init,getApplicationContext());
+                                //snd.execute((Void)null);
+                                alert(uid);
                             }
                             else
                             {
@@ -304,10 +304,10 @@ public class RegisterActivity extends AppCompatActivity {
         alertDialog.show();
     }
 
-    void alert()
+    void alert(String id)
     {
         AlertDialog.Builder builder = new AlertDialog.Builder(RegisterActivity.this,Theme_AppCompat_Dialog);
-        builder.setMessage("Login details have been sent to you email.Redirecting you to login page")
+        builder.setMessage("Your userid is "+id)
                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {

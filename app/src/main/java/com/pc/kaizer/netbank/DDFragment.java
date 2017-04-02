@@ -34,6 +34,9 @@ public class DDFragment extends Fragment {
     private Button mReq;
     private DatabaseReference db;
     SharedPreferences settings;
+    Random r = new Random(System.currentTimeMillis());
+    String reqno = String.valueOf((1 + r.nextInt(2)) * 10000 + r.nextInt(10000));
+    String tid = String.valueOf((1 + r.nextInt(2)) * 10000 + r.nextInt(10000));
 
     public DDFragment() {
         // Required empty public constructor
@@ -43,7 +46,6 @@ public class DDFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getActivity().setTitle("Issue Demand Draft");
-        db = FirebaseDatabase.getInstance().getReference();
         settings = getActivity().getSharedPreferences("ACCDETAILS", 0);
     }
 
@@ -94,20 +96,19 @@ public class DDFragment extends Fragment {
         }
         else
         {
+            db = FirebaseDatabase.getInstance().getReference();
             db.child("accounts").child(settings.getString("acc_no","")).child("balance").addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
-                    Float balance = Float.valueOf(dataSnapshot.getValue().toString());
-                    if(balance>1000 && Float.valueOf(amt)<balance)
+                    float balance = Float.parseFloat(dataSnapshot.getValue().toString());
+                    if(balance>1000 && Float.parseFloat(amt)<balance)
                     {
-                        balance -= Float.valueOf(amt);
-                        db.child("accounts").child(settings.getString("acc_no","")).child("balance").setValue(balance);
-                        Random r = new Random(System.currentTimeMillis());
-                        String reqno = String.valueOf((1 + r.nextInt(2)) * 10000 + r.nextInt(10000));
-                        db.child("requests").child("dd").setValue(reqno);
+                        balance = balance-Float.parseFloat(amt);
+                        db.child("accounts").child(settings.getString("acc_no","")).child("balance").setValue(String.valueOf(balance));
                         db.child("requests").child("dd").child(reqno).child("amount").setValue(amt);
                         db.child("requests").child("dd").child(reqno).child("payeename").setValue(name);
                         db.child("requests").child("dd").child(reqno).child("userid").setValue(settings.getString("uid",""));
+                        db.child("transactions").child(settings.getString("uid","")).child(tid).child("amount").setValue("-"+amt);
                     }
                     else
                     {
