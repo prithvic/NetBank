@@ -2,8 +2,7 @@
     <string name="app_name">Net Bank</string>
     <string name="email">Email</string>
     <string name="reg">Create Account</string>
-    <string name="invalid">Wrong userid or password.</string>
-    <string name="recog">Cannot recognize the userid</string>
+
     <string name="invinp">Invalid Input</string>
     <string name="emlerr">Email doesn\'t seem right</string>
     <string name="error">Something went wrong.</string>
@@ -41,6 +40,9 @@
     <string name="pass">Password</string>
     <string name="fpass">Forgot Password</string>
     <string name="tnc">I agree with all the terms and conditions.</string>
+    <string name="emptyfield">This field cannot be empty</string>
+    <string name="recog">Cannot recognize the User ID</string>
+    <string name="invalid">Invalid User ID or Password.</string>
 
     <!-- About Fragment Strings -->
     <string name="mail">info@netbank.in</string>

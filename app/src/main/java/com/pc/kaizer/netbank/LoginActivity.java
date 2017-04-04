@@ -104,7 +104,7 @@ public class LoginActivity extends AppCompatActivity {
             mPassView.setError(null);
             if (TextUtils.isEmpty(userid)) {
                 cancel = true;
-                mUseridView.setError(getString(R.string.recog));
+                mUseridView.setError(getString(R.string.emptyfield));
                 focusView = mUseridView;
             }
             if (!idchk(userid)) {
@@ -119,7 +119,7 @@ public class LoginActivity extends AppCompatActivity {
             }
             if (pass_chk(password)) {
                 cancel = true;
-                mPassView.setError("Empty input field");
+                mPassView.setError(getString(R.string.emptyfield));
                 focusView = mPassView;
             }
             if (cancel) {
