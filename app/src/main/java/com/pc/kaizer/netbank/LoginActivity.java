@@ -126,7 +126,7 @@ public class LoginActivity extends AppCompatActivity {
                 focusView.requestFocus();
             } else {
                 progress = new ProgressDialog(LoginActivity.this);
-                progress.setCancelable(true);
+                progress.setCancelable(false);
                 progress.setMessage("Logging in");
                 progress.setProgressStyle(ProgressDialog.STYLE_SPINNER);
                 progress.show();
