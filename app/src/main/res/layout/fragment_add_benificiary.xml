@@ -80,30 +80,30 @@
     </ScrollView>
 
     <Button
-        android:text="Add Beneficiary"
+        android:id="@+id/addpayee"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
-        android:id="@+id/addpayee"
-        android:onClick="addpayee"
-        android:textColorHint="@color/White"
-        android:backgroundTint="@color/Blue"
         android:layout_toEndOf="@+id/cancel"
+        android:backgroundTint="@color/colorAccent"
+        android:onClick="addpayee"
+        android:text="Add Beneficiary"
+        android:textAllCaps="false"
         android:textColor="@color/White"
-        android:textAllCaps="false" />
+        android:textColorHint="@color/White" />
 
     <Button
-        android:text="Cancel"
+        android:id="@+id/cancel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/cancel"
-        android:textColorHint="@color/White"
-        android:backgroundTint="@color/Blue"
         android:layout_alignParentBottom="true"
         android:layout_alignParentStart="true"
+        android:backgroundTint="@color/colorAccent"
+        android:text="Cancel"
+        android:textAllCaps="false"
         android:textColor="@color/White"
-        android:textAllCaps="false" />
+        android:textColorHint="@color/White" />
 
     <CheckBox
         android:text="I agree with the Terms &amp; Conditions"

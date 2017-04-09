@@ -60,4 +60,8 @@
     <string name="telephone">Telephone</string>
     <string name="water">Water</string>
 
+    <!--FDR-->
+    <string name="reqFDR">Request FDR</string>
+    <string name="interest">Interest Rate: </string>
+
 </resources>

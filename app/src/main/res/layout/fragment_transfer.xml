@@ -91,15 +91,15 @@
 
         </com.github.clans.fab.FloatingActionMenu>
 
-        <Button
-            android:text="Transfer"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/transfer"
-            android:textColor="@color/White"
-            android:backgroundTint="@color/Blue"
-            android:layout_marginStart="22dp"
-            android:layout_alignBottom="@+id/ben"
-            android:layout_alignParentStart="true" />
+    <Button
+        android:id="@+id/transfer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/ben"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="22dp"
+        android:backgroundTint="@color/colorAccent"
+        android:text="Transfer"
+        android:textColor="@color/White" />
 
 </RelativeLayout>

@@ -31,26 +31,26 @@
         android:checked="false"/>
 
     <Button
+        android:id="@+id/login"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColorHint="@color/White"
-        android:hint="@string/login"
-        android:backgroundTint="@color/Blue"
         android:layout_alignParentBottom="true"
         android:layout_alignParentStart="true"
-        android:id="@+id/login" />
+        android:backgroundTint="@color/colorAccent"
+        android:hint="@string/login"
+        android:textColorHint="@color/White" />
 
     <Button
+        android:id="@+id/reg_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:hint="@string/register"
-        android:id="@+id/reg_button"
-        android:textColorHint="@color/White"
-        android:backgroundTint="@color/Blue"
-        android:layout_gravity="center_horizontal"
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
-        android:layout_toEndOf="@+id/login" />
+        android:layout_gravity="center_horizontal"
+        android:layout_toEndOf="@+id/login"
+        android:backgroundTint="@color/colorAccent"
+        android:hint="@string/register"
+        android:textColorHint="@color/White" />
 
     <ScrollView
         android:scrollbars="none"

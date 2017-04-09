@@ -1,0 +1,71 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginTop="?attr/actionBarSize"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_vertical_margin"
+    android:paddingRight="@dimen/activity_vertical_margin"
+    android:paddingTop="10dp"
+    tools:context="com.pc.kaizer.netbank.CreateFDRFragment">
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/textInputLayoutAmt"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true">
+
+        <EditText
+            android:id="@+id/fdramt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="FDR Amount" />
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/textInputLayoutDur"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/textInputLayoutAmt">
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Duration (in Years)" />
+    </android.support.design.widget.TextInputLayout>
+
+    <TextView
+        android:id="@+id/interest"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/space5"
+        android:padding="5dp"
+        android:text="@string/interest"
+        android:textAlignment="center"
+        android:textAllCaps="true"
+        android:textColor="@color/colorAccent" />
+
+    <Space
+        android:id="@+id/space5"
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/textInputLayoutDur" />
+
+    <Button
+        android:id="@+id/ReqFDR"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"
+        android:backgroundTint="@color/colorAccent"
+        android:text="@string/reqFDR"
+        android:textAllCaps="false"
+        android:textColor="@color/White" />
+
+</RelativeLayout>

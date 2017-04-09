@@ -23,25 +23,25 @@
         android:visibility="gone" />
 
     <Button
+        android:id="@+id/Register"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/Register"
-        android:hint="@string/register"
-        android:textColorHint="@color/White"
-        android:backgroundTint="@color/Blue"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:backgroundTint="@color/colorAccent"
+        android:hint="@string/register"
+        android:textColorHint="@color/White" />
 
     <Button
+        android:id="@+id/button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/button"
-        android:hint="@string/login"
-        android:textColorHint="@color/White"
-        android:backgroundTint="@color/Blue"
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
-        android:layout_toEndOf="@+id/Register" />
+        android:layout_toEndOf="@+id/Register"
+        android:backgroundTint="@color/colorAccent"
+        android:hint="@string/login"
+        android:textColorHint="@color/White" />
 
     <ScrollView
         android:layout_width="match_parent"

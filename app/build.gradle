@@ -7,8 +7,8 @@ android {
         applicationId "com.pc.kaizer.netbank"
         minSdkVersion 21
         targetSdkVersion 25
-        versionCode 5
-        versionName "Beta 1"
+        versionCode 6
+        versionName "Beta 2.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
     }
