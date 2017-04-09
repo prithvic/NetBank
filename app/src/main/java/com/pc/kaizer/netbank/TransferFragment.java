@@ -151,7 +151,7 @@ public class TransferFragment extends Fragment {
         final String benacc;
 
         try {
-            if (TextUtils.isDigitsOnly(amount) && !TextUtils.isEmpty(amount) && (Float.parseFloat(amount) % 100 == 0 || Float.parseFloat(amount) % 500 == 0)) {
+            if ((TextUtils.isDigitsOnly(amount) && !TextUtils.isEmpty(amount) && (Float.parseFloat(amount) % 100 == 0 || Float.parseFloat(amount) % 500 == 0) && Float.parseFloat(amount)>0)) {
                 if (list != null && list.getSelectedItem() != null && !list.getSelectedItem().toString().equals("Select benificiary")) {
                     int pos = payees.indexOf(list.getSelectedItem()) - 1;
                     benlimit = limit.get(pos);

@@ -124,7 +124,7 @@ public class AddBenificiary extends Fragment {
         if(TextUtils.isDigitsOnly(payeelimit) && !TextUtils.isEmpty(payeelimit))
         {
             final float limit =Float.parseFloat(payeelimit);
-            if (limit % 100 != 0 && limit % 500 != 0) {
+            if (limit % 100 != 0 && limit % 500 != 0 && limit<=0) {
                 cancel = true;
                 mPayeelimit.setError(getString(R.string.inv_amt));
                 focusView = mPayeelimit;

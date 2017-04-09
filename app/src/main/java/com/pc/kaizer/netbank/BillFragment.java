@@ -99,6 +99,12 @@ public class BillFragment extends Fragment {
         if(water.isEnabled()) {
             type = "water";
         }
+        if(Float.parseFloat(amt)<=0)
+        {
+            cancel = true;
+            ed2.setError("Please enter a valid amount");
+            focus = ed2;
+        }
         if(amt.isEmpty())
         {
             cancel = true;
@@ -133,7 +139,7 @@ public class BillFragment extends Fragment {
                                     db.child("transactions").child(settings.getString("uid","")).child(tid).child("type").setValue("Bill: "+type);
                                     AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                                     builder.setTitle("Bill Pay alert");
-                                    builder.setMessage("Tera bill bhar diya bhai! Tension na le!");
+                                    builder.setMessage("Yout bill payment will be processed within 7 working days");
                                     AlertDialog alert = builder.create();
                                     alert.show();
                                 }

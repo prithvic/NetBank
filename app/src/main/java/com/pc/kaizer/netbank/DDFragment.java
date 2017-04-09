@@ -91,6 +91,12 @@ public class DDFragment extends Fragment {
             mPayee.setError("Input Field should not be empty");
             focusView = mPayee;
         }
+        if(Float.parseFloat(amt)<=0)
+        {
+            cancel=true;
+            mDD.setError("Invalid amount");
+            focusView = mDD;
+        }
         if(TextUtils.isEmpty(amt))
         {
             cancel=true;
