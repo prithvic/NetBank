@@ -22,6 +22,7 @@
             android:id="@+id/fdramt"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:inputType="numberDecimal"
             android:hint="FDR Amount" />
     </android.support.design.widget.TextInputLayout>
 
@@ -36,6 +37,7 @@
             android:id="@+id/duration"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:inputType="numberDecimal"
             android:hint="Duration (in Years)" />
     </android.support.design.widget.TextInputLayout>
 
