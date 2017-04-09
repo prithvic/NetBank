@@ -30,7 +30,7 @@ import java.util.Map;
  * A simple {@link Fragment} subclass.
  */
 public class ViewFDRFragment extends Fragment {
-    private List<FDREntries> fdrEntriesList = new ArrayList<>();
+    private List<FDREntries> fdEntriesList = new ArrayList<>();
     protected RecyclerView frecyclerView;
     private ViewFDRAdapter fAdapter;
     private DatabaseReference mDatabase;
@@ -41,19 +41,46 @@ public class ViewFDRFragment extends Fragment {
         // Required empty public constructor
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        prepareFDR();
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        frecyclerView = (RecyclerView) view.findViewById(R.id.recyclerViewFDR);
+        fAdapter = new ViewFDRAdapter(fdEntriesList);
+        frecyclerView.setLayoutManager(new LinearLayoutManager(getActivity().getApplicationContext()));
+        frecyclerView.setAdapter(fAdapter);
+
+        frecyclerView.setItemAnimator(new DefaultItemAnimator());
+        prepareFDR();
+
+    }
+
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if (isVisibleToUser) {
+        prepareFDR();
+        }
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.fragment_view_fdr, container, false);
         // Inflate the layout for this fragment
-        View frootView = inflater.inflate(R.layout.fragment_view_fdr, container, false);
+        /*View frootView = inflater.inflate(R.layout.fragment_view_fdr, container, false);
         frecyclerView = (RecyclerView) frootView.findViewById(R.id.recyclerViewFDR);
-        fAdapter = new ViewFDRAdapter(fdrEntriesList);
-        frecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        fAdapter = new ViewFDRAdapter(fdEntriesList);
+        frecyclerView.setLayoutManager(new LinearLayoutManager(getActivity().getApplicationContext()));
         frecyclerView.setAdapter(fAdapter);
         frecyclerView.setItemAnimator(new DefaultItemAnimator());
         prepareFDR();
-        return frootView;
+        return frootView;*/
     }
 
     private void prepareFDR() {
@@ -62,14 +89,14 @@ public class ViewFDRFragment extends Fragment {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     if (!dataSnapshot.getKey().toString().equals(null)) {
-                        fdrEntriesList.clear();
+                        fdEntriesList.clear();
                         for (DataSnapshot dsp : dataSnapshot.getChildren()) {
                             for (DataSnapshot dp : dsp.getChildren()) {
                                 fd.put(dp.getKey(), dp.getValue().toString());
                                 Log.d("GG", dp.getKey() + dp.getValue().toString());
                             }
                             FDREntries fde = new FDREntries("FID: " + dsp.getKey().toString(), "Timestamp: " + fd.get("timestamp"), "Quarterly Amount: " + fd.get("quarterly") + "Rs");
-                            fdrEntriesList.add(fde);
+                            fdEntriesList.add(fde);
                             fd.clear();
                         }
                     }
@@ -91,48 +118,6 @@ public class ViewFDRFragment extends Fragment {
 
 
     }
-
-    //Recycler View Entries
-    public class FDREntries {
-        private String fid, ftimestamp, famt;
-
-        public FDREntries() {
-        }
-
-        public FDREntries(String fid, String ftimestamp, String famt) {
-            Log.d("RV",fid);
-            Log.d("RV",ftimestamp);
-            Log.d("RV",famt);
-            this.fid = fid;
-            this.ftimestamp = ftimestamp;
-            this.famt = famt;
-        }
-
-        public String getFid() {
-            return fid;
-        }
-
-        public void setFid(String fid) {
-            this.fid = fid;
-        }
-
-        public String getFTimestamp() {
-            return ftimestamp;
-        }
-
-        public void setFTimestamp(String ftimestamp) {
-            this.ftimestamp = ftimestamp;
-        }
-
-        public String getFAmt() {
-            return famt;
-        }
-
-        public void setFAmt(String famt) {
-            this.famt = famt;
-        }
-    }
-
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {

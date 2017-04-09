@@ -13,7 +13,7 @@ import java.util.List;
  */
 
 public class ViewFDRAdapter extends RecyclerView.Adapter<ViewFDRAdapter.MyViewHolderr> {
-    private List<ViewFDRFragment.FDREntries> fdEntriesList;
+    private List<FDREntries> fdEntriesList;
 
     public class MyViewHolderr extends RecyclerView.ViewHolder {
         public TextView fid, ftimestamp, famt;
@@ -26,24 +26,22 @@ public class ViewFDRAdapter extends RecyclerView.Adapter<ViewFDRAdapter.MyViewHo
         }
     }
 
-    public ViewFDRAdapter(List<ViewFDRFragment.FDREntries> fdrEntries) {
-        this.fdEntriesList = fdrEntries;
+    public ViewFDRAdapter(List<FDREntries> fdEntriesList) {
+        this.fdEntriesList = fdEntriesList;
     }
 
     @Override
     public MyViewHolderr onCreateViewHolder(ViewGroup parent, int viewType) {
-        View itemView = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.fdr_cards, parent, false);
-
+        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.fdr_cards, parent, false);
         return new MyViewHolderr(itemView);
     }
 
     @Override
     public void onBindViewHolder(MyViewHolderr holder, int position) {
-        ViewFDRFragment.FDREntries fdrE = fdEntriesList.get(position);
-        holder.fid.setText(fdrE.getFid());
-        holder.ftimestamp.setText(fdrE.getFTimestamp());
-        holder.famt.setText(fdrE.getFAmt());
+        FDREntries fdrEntries = fdEntriesList.get(position);
+        holder.fid.setText(fdrEntries.getFid());
+        holder.ftimestamp.setText(fdrEntries.getFTimestamp());
+        holder.famt.setText(fdrEntries.getFAmt());
     }
 
     @Override
