@@ -28,6 +28,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Random;
+import java.util.concurrent.ExecutionException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -263,22 +264,25 @@ public class RegisterActivity extends AppCompatActivity {
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if(task.isSuccessful())
                             {
-                                String init = "Hello "+fname+" "+lname+" your userid is "+uid+"."+"\nDelete this message after noting down the credentials."+"\nThanks,\nYour NetBankFire team";
-                                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy-hh:mm:ss");
-                                String format = simpleDateFormat.format(new Date());
-                                DatabaseReference DB = FirebaseDatabase.getInstance().getReference();
-                                DB.child("accounts").child(acc_no).child("status").setValue("created");
-                                DB.child("users").child(uid).child("account_no").setValue(acc_no);
-                                DB.child("users").child(uid).child("email").setValue(email);
-                                DB.child("users").child(uid).child("name").setValue(fname+" "+lname);
-                                DB.child("users").child(uid).child("address").setValue(addr);
-                                DB.child("users").child(uid).child("mobile").setValue(mob);
-                                DB.child("users").child(uid).child("last_login").setValue(format);
-                                DB.child("requests").child("chequebook").child(uid).child("reqno").setValue("Not Yet Issued");
-                                //SendMail snd;
-                                //snd = new SendMail(email,"Login Credentials",init,getApplicationContext());
-                                //snd.execute((Void)null);
-                                alert(uid);
+                                try {
+                                    String init = "Hello " + fname + " " + lname + " your userid is " + uid + "." + "\nDelete this message after noting down the credentials." + "\nThanks,\nYour NetBankFire team";
+                                    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy-hh:mm:ss");
+                                    String format = simpleDateFormat.format(new Date());
+                                    DatabaseReference DB = FirebaseDatabase.getInstance().getReference();
+                                    DB.child("accounts").child(acc_no).child("status").setValue("created");
+                                    DB.child("users").child(uid).child("account_no").setValue(acc_no);
+                                    DB.child("users").child(uid).child("email").setValue(email);
+                                    DB.child("users").child(uid).child("name").setValue(fname + " " + lname);
+                                    DB.child("users").child(uid).child("address").setValue(addr);
+                                    DB.child("users").child(uid).child("mobile").setValue(mob);
+                                    DB.child("users").child(uid).child("last_login").setValue(format);
+                                    DB.child("requests").child("chequebook").child(uid).child("reqno").setValue("Not Yet Issued");
+                                    alert(uid);
+                                }
+                                catch (Exception e)
+                                {
+                                    e.printStackTrace();
+                                }
                             }
                             else
                             {

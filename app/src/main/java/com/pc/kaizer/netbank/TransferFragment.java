@@ -87,7 +87,25 @@ public class TransferFragment extends Fragment {
         fab2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //Remove Beneficiary code.
+                if(list.getSelectedItem() != null && !list.getSelectedItem().toString().equals("Select benificiary"))
+                {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(),Theme_AppCompat_Dialog);
+                    builder.setMessage("Do you really want to delete "+list.getSelectedItem().toString())
+                            .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    mDatabase.child("users").child(settings.getString("uid", "")).child("benificiaries").child(list.getSelectedItem().toString()).removeValue();
+                                    TransferFragment fragment = new TransferFragment();
+                                    FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+                                    fragmentTransaction.replace(R.id.fragment_container, fragment);
+                                    fragmentTransaction.commit();
+                                }
+                            });
+                    builder.show();
+                }
+                else{
+                    Toast.makeText(getActivity(),"Select benificiary to delete first",Toast.LENGTH_LONG).show();
+                }
             }
         });
         trns.setOnClickListener(new View.OnClickListener() {
