@@ -52,6 +52,7 @@ public class ViewFDRFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         frecyclerView = (RecyclerView) view.findViewById(R.id.recyclerViewFDR);
         fAdapter = new ViewFDRAdapter(fdEntriesList);
+
         frecyclerView.setLayoutManager(new LinearLayoutManager(getActivity().getApplicationContext()));
         frecyclerView.setAdapter(fAdapter);
 
@@ -99,6 +100,7 @@ public class ViewFDRFragment extends Fragment {
                             fdEntriesList.add(fde);
                             fd.clear();
                         }
+                        fAdapter.notifyDataSetChanged();
                     }
                     else
                     {

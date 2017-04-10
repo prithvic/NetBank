@@ -129,7 +129,7 @@ public class DDFragment extends Fragment {
                         db.child("transactions").child(settings.getString("uid","")).child(tid).child("timestamp").setValue(format);
                         db.child("transactions").child(settings.getString("uid","")).child(tid).child("type").setValue("DD");
                         Toast.makeText(getActivity(),"Your DD request ID is "+reqno,Toast.LENGTH_LONG).show();
-                        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(),Theme_AppCompat_Dialog);
+                        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                         builder.setMessage("Your DD request ID is "+reqno)
                                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                                     @Override
