@@ -34,8 +34,5 @@ dependencies {
     compile 'javax.mail:javax.mail-api:1.5.6'
     compile 'com.github.clans:fab:1.6.2'
     testCompile 'junit:junit:4.12'
-    compile files('libs/activation.jar')
-    compile files('libs/additionnal.jar')
-    compile files('libs/mail.jar')
 }
 apply plugin: 'com.google.gms.google-services'
