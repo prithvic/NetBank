@@ -275,6 +275,9 @@ public class RegisterActivity extends AppCompatActivity {
                                     DB.child("users").child(uid).child("name").setValue(fname + " " + lname);
                                     DB.child("users").child(uid).child("address").setValue(addr);
                                     DB.child("users").child(uid).child("mobile").setValue(mob);
+                                    DB.child("users").child(uid).child("electricity").setValue("123465789");
+                                    DB.child("users").child(uid).child("water").setValue("786786786");
+                                    DB.child("users").child(uid).child("telephone").setValue("98989162");
                                     DB.child("users").child(uid).child("last_login").setValue(format);
                                     DB.child("requests").child("chequebook").child(uid).child("reqno").setValue("Not Yet Issued");
                                     alert(uid);

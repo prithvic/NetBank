@@ -75,30 +75,34 @@ public class CreateFDRFragment extends Fragment {
         dur = duration.getText().toString();
         Boolean cancel = false;
         View focus = null;
-        if(fdamt.isEmpty() && dur.isEmpty())
+        if(fdamt.isEmpty() || dur.isEmpty())
         {
             cancel=true;
             focus=fdramt;
             fdramt.setError("Input cannot be Blank");
         }
-        if(Float.parseFloat(fdamt) % 100 != 0 && Float.parseFloat(fdamt) % 500 != 0 && Float.parseFloat(fdamt)<=0)
+        else
         {
-            cancel=true;
-            focus=fdramt;
-            fdramt.setError("Invalid amount");
+            if(Float.parseFloat(fdamt) % 100 != 0 && Float.parseFloat(fdamt) % 500 != 0 && Float.parseFloat(fdamt)<=0)
+            {
+                cancel=true;
+                focus=fdramt;
+                fdramt.setError("Invalid amount");
+            }
+            if(Integer.parseInt(dur)>5)
+            {
+                cancel=true;
+                focus=duration;
+                duration.setError("Duration cannot be greater than 5");
+            }
+            if(Integer.parseInt(dur)==0)
+            {
+                cancel=true;
+                focus=duration;
+                duration.setError("Duration cannot be 0");
+            }
         }
-        if(Integer.parseInt(dur)>5)
-        {
-            cancel=true;
-            focus=duration;
-            duration.setError("Duration cannot be greater than 5");
-        }
-        if(Integer.parseInt(dur)==0)
-        {
-            cancel=true;
-            focus=duration;
-            duration.setError("Duration cannot be 0");
-        }
+
         if(cancel)
         {
             focus.requestFocus();

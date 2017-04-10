@@ -24,6 +24,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -40,6 +41,7 @@ public class LoginActivity extends AppCompatActivity {
     private FirebaseAuth mFirebaseAuth;
     private DatabaseReference mDatabase;
     private ProgressDialog progress;
+    private String userid;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -98,7 +100,7 @@ public class LoginActivity extends AppCompatActivity {
         if (isConnectedToInternet()) {
             boolean cancel = false;
             View focusView = null;
-            final String userid = mUseridView.getText().toString();
+            userid = mUseridView.getText().toString();
             final String password = mPassView.getText().toString();
             mUseridView.setError(null);
             mPassView.setError(null);
@@ -181,14 +183,15 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()) {
-                    progress.dismiss();
+                    isEmailVerified();
+                    /*progress.dismiss();
                     SharedPreferences settings = getSharedPreferences(CRED, 0);
                     SharedPreferences.Editor editor = settings.edit();
                     editor.putString("uid",uid);
                     editor.apply();
                     Toast.makeText(LoginActivity.this,"Login Successful",Toast.LENGTH_LONG).show();
                     Intent goToNextActivity = new Intent(getApplicationContext(), Home.class);
-                    startActivity(goToNextActivity);
+                    startActivity(goToNextActivity);*/
 
                 }
                 else {
@@ -238,5 +241,64 @@ public class LoginActivity extends AppCompatActivity {
                 }
                 });
         }
+    }
+
+    private void isEmailVerified()
+    {
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        assert user != null;
+        if(user.isEmailVerified())
+        {
+            progress.dismiss();
+            SharedPreferences settings = getSharedPreferences(CRED, 0);
+            SharedPreferences.Editor editor = settings.edit();
+            editor.putString("uid",userid);
+            editor.apply();
+            Toast.makeText(LoginActivity.this,"Login Successful",Toast.LENGTH_LONG).show();
+            Intent goToNextActivity = new Intent(getApplicationContext(), Home.class);
+            startActivity(goToNextActivity);
+        }
+        else
+        {
+            progress.dismiss();
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setMessage("Please select one option to proceed")
+                    .setTitle("Email Unverified!")
+                    .setCancelable(false)
+                    .setNegativeButton("Exit", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            FirebaseAuth.getInstance().signOut();
+                            Toast.makeText(LoginActivity.this,"Login failed(Email Unverified)",Toast.LENGTH_LONG).show();
+                        }
+                    })
+                    .setPositiveButton("Send Confirmation", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            sendVerification();
+                            FirebaseAuth.getInstance().signOut();
+                        }
+                    });
+            AlertDialog alert = builder.create();
+            alert.show();
+        }
+    }
+
+    private void sendVerification()
+    {
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        assert user != null;
+        user.sendEmailVerification()
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (task.isSuccessful()) {
+                            Toast.makeText(LoginActivity.this,"Email verification sent", Toast.LENGTH_SHORT).show();
+                        }
+                        else
+                        {
+                            Toast.makeText(LoginActivity.this, "Email verification sending failed", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
     }
 }
